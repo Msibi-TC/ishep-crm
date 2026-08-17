@@ -15,6 +15,7 @@
 /.idea
 /.nova
 /.vscode/
+!/.vscode/extensions.json
 /.zed/
 /node_modules
 /public/build

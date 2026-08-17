@@ -105,15 +105,15 @@ The foundational layer has been established with:
    - Updated `README.md` with ISHEP-specific content, installation, setup, and workflow instructions
    - Updated `.editorconfig` with language-specific formatting rules (PHP, Blade, JS, CSS, Markdown)
 
-9. ✅ **VS Code setup**
+8. ✅ **VS Code setup**
    - Created `.vscode/extensions.json` with recommended extensions:
-     - `bmewburn.vscode-tailwindcss`
      - `christian-kohler.path-intellisense`
      - `editorconfig.editorconfig`
      - `laravel.vscode-laravel`
      - `onecentlin.laravel-blade`
      - `phpactor.phpactor`
      - `xdebug.php-debug`
+   - **Correction:** Removed irrelevant Tailwind CSS extension (project uses Bootstrap)
 
 10. ✅ **Database configuration**
     - Updated `config/database.php` to use MySQL as default
@@ -265,36 +265,62 @@ package.json ✅ UPDATED (Bootstrap added)
 - **Run command:** `php artisan test`
 - **Filter by name:** `php artisan test --filter=HomePageTest`
 
-### Latest Test Results (2026-08-17)
+### Latest Test Results (2026-08-17 – After corrections)
 
 ```
+PASS  Tests\Unit\ExampleTest
+✓ that true is true                                                    0.01s
+
+PASS  Tests\Feature\ExampleTest
+✓ the application returns a successful response                        0.36s
+
 PASS  Tests\Feature\HomePageTest
-✓ the home page loads                                                  0.41s
+✓ home page loads                                                      0.02s
+✓ membership page loads                                                0.02s
+✓ careers page loads                                                   0.03s
+✓ bursaries page loads                                                 0.02s
+✓ verify membership page loads                                         0.03s
+✓ login page loads                                                     0.03s
+✓ register page loads                                                  0.02s
 
-Tests:    1 passed (2 assertions)
-Duration: 0.69s
+Tests:    9 passed (17 assertions)
+Duration: 0.81s
 ```
 
-**Test details:**
-- Verifies home page responds with HTTP 200
-- Verifies ISHEP branding text is present in output
+**Test coverage:**
+- ✅ Home page loads and contains "ISHEP" and "Member engagement platform"
+- ✅ Membership portal page loads and contains "Membership"
+- ✅ Careers portal page loads and contains "Career"
+- ✅ Bursaries portal page loads and contains "Bursaries"
+- ✅ Membership verification page loads and contains "Verification"
+- ✅ Login placeholder page loads and contains "Login"
+- ✅ Registration placeholder page loads and contains "Create account"
 
-**Assertions:**
-1. Response status is 200 (OK)
-2. Response body contains "ISHEP"
+**Assertions:** 17 total assertions verifying HTTP 200 responses and content visibility
 
 ---
 
 ## Git Commits and Branches
 
 **Repository:** Local Git initialized in project root  
+**Remote:** https://github.com/Msibi-TC/ishep-crm.git  
 **Branch:** main (default)  
-**Commits:** Not yet created (foundation files staged but not committed per user constraint)
+**Last commit:** 5426c9a – `chore: establish ISHEP CRM project foundation`
 
-**Pending commit:**
-- Message: `chore: establish ISHEP CRM project foundation`
-- Files: All foundation work (config, routes, views, docs, tests, .env)
-- Size: ~30 files created/modified
+### Commit 1: Foundation (5426c9a)
+- Created complete Laravel 12 scaffold with 75 files
+- Set up MySQL configuration, routes, views, and layout
+- Added documentation and test harness
+- Status: ✅ Committed locally
+
+### Pending Commit: Task 1 Corrections
+- **Files staged:**
+  - `.gitignore` (added negation rule for `.vscode/extensions.json`)
+  - `.vscode/extensions.json` (removed Tailwind CSS recommendation)
+  - `tests/Feature/HomePageTest.php` (expanded to 7 comprehensive tests)
+  - `docs/PROJECT_STATUS.md` (updated with accurate status)
+- **Message:** `chore: complete task 1 github checkpoint`
+- **Status:** Ready to commit and push
 
 ---
 
@@ -352,10 +378,33 @@ The foundation layer is clean, minimal, and intentionally avoids prematurely loc
 
 ## Manual Actions Required from User
 
-**None** – The foundation is fully automated. The next phase will require:
-- Creating the first database migration (users/members tables)
-- Implementing membership model and repository
-- Adding member onboarding workflow
+**MySQL database setup (required before Phase 2):**
+
+1. Open MySQL Workbench or MySQL CLI
+2. Create database:
+   ```sql
+   CREATE DATABASE ishep_crm 
+   CHARACTER SET utf8mb4 
+   COLLATE utf8mb4_unicode_ci;
+   ```
+3. Create application user:
+   ```sql
+   CREATE USER 'ishep_app'@'127.0.0.1' IDENTIFIED BY 'your_secure_password';
+   GRANT ALL PRIVILEGES ON ishep_crm.* TO 'ishep_app'@'127.0.0.1';
+   FLUSH PRIVILEGES;
+   ```
+4. Update `.env` with actual credentials:
+   ```
+   DB_HOST=127.0.0.1
+   DB_USERNAME=ishep_app
+   DB_PASSWORD=your_secure_password
+   ```
+5. Run migrations when Phase 2 tasks begin
+
+**Security reminders:**
+- `.env` is Git-ignored and should never be committed
+- Never share or commit real database passwords
+- `.vscode/extensions.json` is tracked for team consistency but excludes personal settings
 
 ---
 
@@ -433,6 +482,40 @@ This will unlock the membership portal and provide the foundation for careers an
 
 ## Changelog
 
+### 2026-08-17 – Task 1 GitHub Checkpoint ✅
+
+**Corrections made:**
+- Fixed .gitignore to allow `.vscode/extensions.json` while keeping `.vscode/` otherwise ignored
+- Updated `.vscode/extensions.json` to remove irrelevant Tailwind CSS extension
+- Expanded HomePageTest to comprehensive PublicRoutesTest covering all 7 routes
+- Updated PROJECT_STATUS.md with accurate completion status and manual actions
+
+**All checks passed:**
+- ✅ `composer validate` – No errors
+- ✅ `php artisan test` – 9 passed (17 assertions)
+- ✅ `php artisan route:list` – 7 public routes active
+- ✅ `npm run build` – Built in 1.45s
+- ✅ `git diff --check` – No style issues (CRLF warning is normal on Windows)
+
+**Files staged for commit:**
+- `.gitignore` (negation rule added)
+- `.vscode/extensions.json` (tracked, Tailwind removed)
+- `tests/Feature/HomePageTest.php` (7 comprehensive tests)
+- `docs/PROJECT_STATUS.md` (accurate status)
+
+**Security verification:**
+- ✅ `.env` is NOT staged or tracked
+- ✅ `.env.example` contains safe placeholders only
+- ✅ No database credentials in staged files
+- ✅ No application keys or secrets in staged files
+
+**Remote configured:**
+- origin: https://github.com/Msibi-TC/ishep-crm.git
+
+**Status:** Ready for GitHub push
+
+---
+
 ### 2026-08-17 – Phase 1 Foundation Complete ✅
 
 **Delivered:**
@@ -457,6 +540,6 @@ This will unlock the membership portal and provide the foundation for careers an
 
 ---
 
-**Maintained by:** GitHub Copilot  
+**Maintained by:** ISHEP Project Team  
 **Last verified:** 2026-08-17  
-**Next review:** After Phase 2 task completion
+**Next review:** After GitHub push and Phase 2 task initiation

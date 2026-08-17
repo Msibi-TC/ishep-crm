@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "christian-kohler.path-intellisense",
+    "editorconfig.editorconfig",
+    "laravel.vscode-laravel",
+    "onecentlin.laravel-blade",
+    "phpactor.phpactor",
+    "xdebug.php-debug"
+  ]
+}
