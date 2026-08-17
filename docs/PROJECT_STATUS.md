@@ -207,10 +207,10 @@ package.json ✅ UPDATED (Bootstrap added)
 
 ## Database Migrations and Tables
 
-**Current state:** No migrations or tables created (intentional – foundation phase only)
+**Current state:** Laravel's three default framework migrations are present (`users`, `cache`, and `jobs`). No ISHEP domain migrations or domain tables have been added; Phase 2 database work has not started.
 
 **Planned migrations (Phase 2):**
-- `users` table (for authentication)
+- ISHEP authentication/profile changes extending the default `users` table as required
 - `members` table (membership records)
 - `organizations` table (employer/partner orgs)
 - `member_subscriptions` table (membership types and renewals)
@@ -305,22 +305,24 @@ Duration: 0.81s
 **Repository:** Local Git initialized in project root  
 **Remote:** https://github.com/Msibi-TC/ishep-crm.git  
 **Branch:** main (default)  
-**Last commit:** 5426c9a – `chore: establish ISHEP CRM project foundation`
+**Latest pushed commit:** a1bfd0b – `chore: complete task 1 github checkpoint`
 
 ### Commit 1: Foundation (5426c9a)
 - Created complete Laravel 12 scaffold with 75 files
 - Set up MySQL configuration, routes, views, and layout
 - Added documentation and test harness
-- Status: ✅ Committed locally
+- Full hash: `5426c9a22e76e7a0893e301ff8a2191f2d838552`
+- Status: ✅ Pushed to `origin/main`
 
-### Pending Commit: Task 1 Corrections
-- **Files staged:**
+### Commit 2: Task 1 Corrections (a1bfd0b)
+- **Files committed:**
   - `.gitignore` (added negation rule for `.vscode/extensions.json`)
   - `.vscode/extensions.json` (removed Tailwind CSS recommendation)
   - `tests/Feature/HomePageTest.php` (expanded to 7 comprehensive tests)
   - `docs/PROJECT_STATUS.md` (updated with accurate status)
 - **Message:** `chore: complete task 1 github checkpoint`
-- **Status:** Ready to commit and push
+- **Full hash:** `a1bfd0bea1d67f0005373c05c802467c8d8769eb`
+- **Status:** ✅ Pushed to `origin/main`
 
 ---
 
@@ -364,9 +366,9 @@ Duration: 0.81s
 
 ## Known Issues and Technical Debt
 
-### None identified at foundation phase
+### Documentation drift corrected at the GitHub checkpoint
 
-The foundation layer is clean, minimal, and intentionally avoids prematurely locking in domain logic. All code is in place, tested, and ready for Phase 2 expansion.
+The checkpoint review found stale status wording about pending/staged work and clarified that the repository contains Laravel's default framework migrations while no ISHEP domain migrations exist. No Phase 2 implementation was started.
 
 ---
 
@@ -497,7 +499,7 @@ This will unlock the membership portal and provide the foundation for careers an
 - ✅ `npm run build` – Built in 1.45s
 - ✅ `git diff --check` – No style issues (CRLF warning is normal on Windows)
 
-**Files staged for commit:**
+**Files included in correction commit `a1bfd0b`:**
 - `.gitignore` (negation rule added)
 - `.vscode/extensions.json` (tracked, Tailwind removed)
 - `tests/Feature/HomePageTest.php` (7 comprehensive tests)
@@ -512,7 +514,23 @@ This will unlock the membership portal and provide the foundation for careers an
 **Remote configured:**
 - origin: https://github.com/Msibi-TC/ishep-crm.git
 
-**Status:** Ready for GitHub push
+**Push record:**
+- ✅ Foundation commit: `5426c9a22e76e7a0893e301ff8a2191f2d838552`
+- ✅ Correction commit: `a1bfd0bea1d67f0005373c05c802467c8d8769eb`
+- ✅ Branch: `main`
+- ✅ Remote: `origin` → `https://github.com/Msibi-TC/ishep-crm.git`
+- ✅ Status: Pushed to GitHub
+
+**Codex verification:** Codex inspected and verified the existing Phase 1 foundation and the corrections previously produced with GitHub Copilot. This record does not claim that Codex originally created the application code.
+
+**Latest verification results:**
+- ✅ `composer validate` – `composer.json` is valid
+- ✅ `php artisan test` – 9 passed (17 assertions), 0.98s
+- ✅ `php artisan route:list` – 10 routes registered, including all 7 Phase 1 public routes
+- ✅ `npm run build` – Vite 7.3.6 production build completed in 2.07s (56 modules transformed)
+- ✅ `git diff --check` – no whitespace errors
+- ✅ `.env` remains ignored, untracked, and unstaged
+- ✅ No staged or uncommitted work remained after the correction push
 
 ---
 
