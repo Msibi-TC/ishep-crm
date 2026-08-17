@@ -51,13 +51,25 @@ ISHEP CRM and Portal Suite is a Laravel-based multi-portal platform for membersh
 
 Use the values in `.env.example` as a template. Do not commit real credentials or application keys. Keep placeholders only in tracked files.
 
-## Migration commands
+## Migration and seed commands
 
 ```bash
 php artisan migrate
-php artisan migrate:fresh
 php artisan migrate:status
+php artisan db:seed
 ```
+
+Do not use destructive migration commands against a database containing development or production data.
+
+## Authentication and access control
+
+The application provides public registration, session login/logout, password reset, an authenticated dashboard, account-status enforcement, and role-protected staff dashboard placeholders. Public registration always assigns only the `registered_user` role. Staff roles (`administrator`, `finance`, and `super_user`) must be assigned through an authorised administrative process or the secure console command:
+
+```bash
+php artisan users:assign-role user@example.com administrator
+```
+
+The user and role must already exist. Company, Individual, and Student are membership types, not roles. Applicant status will arise from a future application submission and is not a permanent role.
 
 ## Frontend build commands
 
@@ -80,6 +92,8 @@ php artisan test
 php artisan test --filter=HomePageTest
 ```
 
+Tests use SQLite in memory and do not modify the configured MySQL development database.
+
 ## Git workflow
 
 ```bash
@@ -91,4 +105,4 @@ git push origin <branch>
 
 ## Notes
 
-This task intentionally establishes the foundation only. It does not implement the full membership, career, or bursary workflows.
+Task 2 establishes authentication, RBAC, reference data, and audit storage only. It does not implement membership applications, payments, careers, or bursary workflows.

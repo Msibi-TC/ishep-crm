@@ -7,23 +7,28 @@
                 <div class="card shadow-sm border-0 rounded-4">
                     <div class="card-body p-4 p-md-5">
                         <h1 class="h3 fw-bold mb-4">Create account</h1>
-                        <p class="text-muted">This placeholder registration page will later support member sign-up and onboarding flows.</p>
-                        <form class="row g-3">
-                            <div class="col-md-6">
-                                <label for="firstName" class="form-label">First name</label>
-                                <input id="firstName" type="text" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="lastName" class="form-label">Last name</label>
-                                <input id="lastName" type="text" class="form-control">
+                        <p class="text-muted">Create a public account. Staff access is assigned only by authorised administrators.</p>
+                        <form method="POST" action="{{ route('register.store') }}" class="row g-3">
+                            @csrf
+                            <div class="col-12">
+                                <label for="name" class="form-label">Full name</label>
+                                <input id="name" name="name" type="text" value="{{ old('name') }}" class="form-control" autocomplete="name" required autofocus>
                             </div>
                             <div class="col-12">
-                                <label for="registerEmail" class="form-label">Email address</label>
-                                <input id="registerEmail" type="email" class="form-control">
+                                <label for="email" class="form-label">Email address</label>
+                                <input id="email" name="email" type="email" value="{{ old('email') }}" class="form-control" autocomplete="email" required>
                             </div>
                             <div class="col-12">
-                                <label for="registerPassword" class="form-label">Password</label>
-                                <input id="registerPassword" type="password" class="form-control">
+                                <label for="password" class="form-label">Password</label>
+                                <input id="password" name="password" type="password" class="form-control" autocomplete="new-password" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="password_confirmation" class="form-label">Confirm password</label>
+                                <input id="password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password" required>
+                            </div>
+                            <div class="col-12 form-check ms-2">
+                                <input id="terms" name="terms" value="1" type="checkbox" class="form-check-input" required>
+                                <label for="terms" class="form-check-label">I accept the terms and conditions.</label>
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-warning w-100 text-dark">Register</button>
