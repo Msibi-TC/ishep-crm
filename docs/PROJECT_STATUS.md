@@ -23,15 +23,15 @@ The ISHEP CRM & Portal Suite is a Laravel 12-based multi-portal platform for mem
 
 ## Current Development Phase
 
-**Phase 1: Foundation** ✅ COMPLETE
+**Task 2: Authentication, RBAC and Core Database Foundation** ✅ COMPLETE AND INTEGRATED
 
-The foundational layer has been established with:
-- Clean modular project structure
-- Environment-safe configuration (MySQL, UTC, secrets excluded from Git)
-- Public landing pages and portal placeholders
-- Base application layout (Bootstrap 5)
-- Documentation framework
-- Automated test harness
+Task 2 is merged into `main` with:
+- Functional session authentication and password recovery
+- Account-status enforcement and login throttling
+- Role and permission enforcement for staff dashboards
+- Core reference tables, audit-log storage, and idempotent seeders
+- Bootstrap 5 CSS and JavaScript bundled locally through Vite
+- Isolated automated tests and applied MySQL migrations
 
 **Next phase:** Task 3 – Membership domain design and application workflow (not yet started)
 
@@ -305,7 +305,7 @@ Duration: 0.81s
 **Repository:** Local Git initialized in project root  
 **Remote:** https://github.com/Msibi-TC/ishep-crm.git  
 **Branch:** main (default)  
-**Latest pushed commit:** 66619fd – `feat: add authentication and RBAC foundation`
+**Latest pushed commit:** 4730247 – `merge: integrate authentication and RBAC foundation`
 
 ### Commit 1: Foundation (5426c9a)
 - Created complete Laravel 12 scaffold with 75 files
@@ -333,7 +333,17 @@ Duration: 0.81s
 - Added authentication, account-status enforcement, RBAC, core reference data, audit-log storage, tests, and documentation
 - Full hash: `66619fd9bd90ccf57cd4ad83aaf2cd656515423c`
 - Branch: `feature/auth-rbac-foundation`
-- Status: ✅ Pushed to `origin/feature/auth-rbac-foundation`; not merged into `main`
+- Status: ✅ Pushed on `feature/auth-rbac-foundation` and merged into `main`
+
+### Commit 5: Bootstrap Vite Asset Correction (7e71d5a)
+- Loaded Bootstrap CSS and JavaScript locally through the Vite entry points
+- Full hash: `7e71d5a291a1305ee707e7a2f52a06dbc0d5fa93`
+- Status: ✅ Pushed on `feature/auth-rbac-foundation` and merged into `main`
+
+### Commit 6: Task 2 Integration Merge (4730247)
+- Non-fast-forward integration of `origin/feature/auth-rbac-foundation` into `main`
+- Full hash: `47302471a3a4b0f5c1582e21b35f5f19c1e47bfe`
+- Status: ✅ Pushed to `origin/main`; no pending merge
 
 ---
 
@@ -475,6 +485,27 @@ This will unlock the membership portal and provide the foundation for careers an
 
 ## Changelog
 
+### 2026-08-17 – Task 2 Integration Checkpoint ✅
+
+- Task 2 implementation commit: `66619fd9bd90ccf57cd4ad83aaf2cd656515423c`
+- Bootstrap/Vite correction commit: `7e71d5a291a1305ee707e7a2f52a06dbc0d5fa93`
+- Merge commit: `47302471a3a4b0f5c1582e21b35f5f19c1e47bfe`
+- Integration branch: `main`
+- Remote: `origin` → `https://github.com/Msibi-TC/ishep-crm.git`
+- Merge status: complete and pushed to `origin/main`; no pending merge
+- `composer validate`: passed
+- `php artisan test`: 22 passed (80 assertions) using SQLite in memory
+- `php artisan route:list`: 21 routes
+- Laravel Pint: passed
+- `npm.cmd run build`: Vite 7.3.6, 60 modules transformed, built in 844 ms
+- `git diff --check`: passed
+- MySQL migration status: all seven migrations are applied; Task 2 migrations are batch 2
+- `.env` remains ignored, untracked, and unstaged
+- Known issue: Company and Individual membership fees remain temporary zero values pending business confirmation
+- Next task: Task 3 membership-domain design and application workflow
+
+---
+
 ### 2026-08-17 – Bootstrap Vite Asset Correction ✅
 
 - Corrected `resources/css/app.css` to import Bootstrap 5 CSS through Vite.
@@ -506,7 +537,7 @@ This will unlock the membership portal and provide the foundation for careers an
 - Branch: `feature/auth-rbac-foundation`
 - Remote: `origin` → `https://github.com/Msibi-TC/ishep-crm.git`
 - Push status: successful; branch is synchronized with GitHub
-- Merge status: not merged into `main`
+- Merge status: merged into `main` by `47302471a3a4b0f5c1582e21b35f5f19c1e47bfe`
 
 **Verification:**
 - `composer validate` passed
@@ -607,4 +638,4 @@ The command requires an existing user and existing role, prevents duplicate assi
 
 **Maintained by:** ISHEP Project Team  
 **Last verified:** 2026-08-17  
-**Next review:** After review or merge of `feature/auth-rbac-foundation`, before Task 3 begins
+**Next review:** Before Task 3 begins
