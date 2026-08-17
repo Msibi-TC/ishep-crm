@@ -305,7 +305,7 @@ Duration: 0.81s
 **Repository:** Local Git initialized in project root  
 **Remote:** https://github.com/Msibi-TC/ishep-crm.git  
 **Branch:** main (default)  
-**Latest pushed commit:** 287d7b8 – `docs: record task 1 github checkpoint`
+**Latest pushed commit:** 66619fd – `feat: add authentication and RBAC foundation`
 
 ### Commit 1: Foundation (5426c9a)
 - Created complete Laravel 12 scaffold with 75 files
@@ -328,6 +328,12 @@ Duration: 0.81s
 - Recorded the verified GitHub checkpoint and actual Task 1 results
 - Full hash: `287d7b86bf7a17b69dbaa5da095249bc47086d8c`
 - Status: ✅ Pushed to `origin/main`
+
+### Commit 4: Task 2 Authentication and RBAC Foundation (66619fd)
+- Added authentication, account-status enforcement, RBAC, core reference data, audit-log storage, tests, and documentation
+- Full hash: `66619fd9bd90ccf57cd4ad83aaf2cd656515423c`
+- Branch: `feature/auth-rbac-foundation`
+- Status: ✅ Pushed to `origin/feature/auth-rbac-foundation`; not merged into `main`
 
 ---
 
@@ -469,6 +475,18 @@ This will unlock the membership portal and provide the foundation for careers an
 
 ## Changelog
 
+### 2026-08-17 – Bootstrap Vite Asset Correction ✅
+
+- Corrected `resources/css/app.css` to import Bootstrap 5 CSS through Vite.
+- Confirmed `resources/js/app.js` imports the Bootstrap JavaScript bundle through Vite.
+- Kept the existing Blade layout, page content, authentication flows, and Phase 1 routes unchanged.
+- Bootstrap remains locally installed through npm; no CDN dependency was added.
+- `npm.cmd run build` passed with Vite 7.3.6: 60 modules transformed in 1.03s; the generated stylesheet contains Bootstrap navbar, button, and card rules.
+- `php artisan test` passed: 22 tests and 80 assertions.
+- `git diff --check` passed.
+
+---
+
 ### 2026-08-17 – Task 2 Authentication, RBAC and Core Database Foundation ✅
 
 **Implemented by Codex on `feature/auth-rbac-foundation`:**
@@ -482,6 +500,13 @@ This will unlock the membership portal and provide the foundation for careers an
 - Idempotent seeders for 4 roles, 22 permissions, 9 South African provinces, and 3 membership types
 - Company, Individual, and Student recorded as membership types; Applicant is not represented as a role
 - Existing Phase 1 public routes and pages preserved
+
+**GitHub checkpoint:**
+- Commit: `66619fd9bd90ccf57cd4ad83aaf2cd656515423c`
+- Branch: `feature/auth-rbac-foundation`
+- Remote: `origin` → `https://github.com/Msibi-TC/ishep-crm.git`
+- Push status: successful; branch is synchronized with GitHub
+- Merge status: not merged into `main`
 
 **Verification:**
 - `composer validate` passed
@@ -582,4 +607,4 @@ The command requires an existing user and existing role, prevents duplicate assi
 
 **Maintained by:** ISHEP Project Team  
 **Last verified:** 2026-08-17  
-**Next review:** After GitHub push and Phase 2 task initiation
+**Next review:** After review or merge of `feature/auth-rbac-foundation`, before Task 3 begins
