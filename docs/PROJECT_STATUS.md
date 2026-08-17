@@ -1,7 +1,7 @@
 # ISHEP CRM & Portal Suite – Implementation Status
 
 **Last updated:** 2026-08-17  
-**Project phase:** Task 2 – Authentication, RBAC and Core Database Foundation (Complete)
+**Project phase:** Task 3 – Membership Profiles, Applications, Documents and Administrative Review (Complete)
 
 ---
 
@@ -23,17 +23,17 @@ The ISHEP CRM & Portal Suite is a Laravel 12-based multi-portal platform for mem
 
 ## Current Development Phase
 
-**Task 2: Authentication, RBAC and Core Database Foundation** ✅ COMPLETE AND INTEGRATED
+**Task 3: Membership Profiles, Applications, Documents and Administrative Review** ✅ COMPLETE
 
-Task 2 is merged into `main` with:
-- Functional session authentication and password recovery
-- Account-status enforcement and login throttling
-- Role and permission enforcement for staff dashboards
-- Core reference tables, audit-log storage, and idempotent seeders
-- Bootstrap 5 CSS and JavaScript bundled locally through Vite
-- Isolated automated tests and applied MySQL migrations
+Task 3 is implemented on `feature/membership-application-workflow` with:
+- Member profiles, type-specific applications, immutable transition history, and query/resubmission
+- Company organization details and Student age/evidence eligibility rules
+- Private, authorised document upload/download and administrative review
+- Company/Individual pending-payment outcomes and eligible Student activation
+- Minimal, rate-limited public membership verification
+- Isolated automated tests and additive MySQL migrations
 
-**Next phase:** Task 3 – Membership domain design and application workflow (not yet started)
+**Next phase:** Task 4 – Payment, renewal, and certificate business-rule design (not yet started)
 
 ---
 
@@ -397,17 +397,23 @@ Duration: 0.81s
 
 The checkpoint review found stale status wording about pending/staged work and clarified that the repository contains Laravel's default framework migrations while no ISHEP domain migrations exist. No Phase 2 implementation was started.
 
+### Task 3 temporary assumptions
+
+- Company and Individual approvals remain `pending_payment`; payments are intentionally out of scope.
+- Eligible Student memberships activate for a temporary one-year term pending business confirmation.
+- Supporting files are restricted to PDF/JPEG/PNG and 5 MB per file on private storage.
+
 ---
 
 ## Blockers
 
-**None** – Task 2 is complete and unblocked.
+**None** – Task 3 implementation and verification are complete.
 
 ---
 
 ## Manual Actions Required from User
 
-The local MySQL database is configured, migrated, and seeded. No further database action is required for Task 2. An authorised operator may assign a staff role to an existing account when needed:
+The local MySQL database is configured, migrated, and seeded. No further database action is required for Task 3. An authorised operator may assign a staff role to an existing account when needed:
 
 ```bash
 php artisan users:assign-role user@example.com administrator
@@ -422,28 +428,12 @@ php artisan users:assign-role user@example.com administrator
 
 ## Pending Tasks
 
-### Task 3 – Membership CRM (Not started)
+### Task 4 – Payment and renewal foundation (recommended)
 
-1. **Create member and organization models**
-   - `php artisan make:model Member -m` (with migration)
-   - `php artisan make:model Organization -m`
-   - Define relationships and attributes
-
-2. **Add membership workflow controller**
-   - `App\Http\Controllers\MembershipController`
-   - Implement member onboarding, renewal, and verification
-
-3. **Build member verification service**
-   - `App\Services\MemberVerificationService`
-   - Implement secure credential checking
-
-4. **Create member access control**
-   - `App\Policies\MemberPolicy`
-   - Implement authorization checks
-
-5. **Add membership tests**
-   - `tests/Feature/MembershipTest.php`
-   - Test member creation, verification, renewal workflows
+1. Confirm Company and Individual fees, payment provider, reconciliation, refund, activation, and renewal rules.
+2. Implement an audited transition from `pending_payment` to `active` after verified payment.
+3. Allocate membership numbers only when activation succeeds.
+4. Keep careers, bursaries, subscriptions, and certificate generation outside this work unless separately approved.
 
 ### Phase 3 – Public Portals (Not started)
 
@@ -461,35 +451,37 @@ php artisan users:assign-role user@example.com administrator
 
 ## Recommended Next Task
 
-**Start Task 3 – Membership domain and application workflow:**
+**Start Task 4 with business-rule confirmation:**
 
-1. **First step:** Create the database migration and `Member` model
-   ```bash
-   php artisan make:model Member -m
-   ```
-
-2. **Define member and membership-application schemas** after business-rule review. Applicant state must belong to an application record, not the user-role system.
-
-3. **Define the member schema** without duplicating authentication identity fields unnecessarily:
-   - `id` (primary key)
-   - `email` (unique, for verification and contact)
-   - `first_name`, `last_name`
-   - `organization_id` (foreign key, nullable for individuals)
-   - `membership_number` (unique, for public verification)
-   - `subscription_type` (enum or foreign key to subscription table)
-   - `status` (active, inactive, suspended, expired)
-   - `joined_at`, `expires_at` (timestamps)
-   - `created_at`, `updated_at`, `deleted_at` (soft deletes)
-
-4. **Create a basic member repository** to abstract data access for later portals
-
-5. **Write tests** for member creation, application state, and verification workflows
-
-This will unlock the membership portal and provide the foundation for careers and bursaries workflows.
+Define Company and Individual fees, payment provider, reconciliation/refund handling, activation criteria, and renewal periods. Then implement an audited payment-to-activation workflow that preserves Task 3 authorization, history, and document-security boundaries.
 
 ---
 
 ## Changelog
+
+### 2026-08-17 – Task 3 Membership Application Workflow ✅
+
+- Added 10 domain tables through three additive migrations: profiles, organizations, applications, student eligibility, document metadata/types, queries, memberships, and immutable histories.
+- Added eight backed enums and ten domain models with user, type, organization, document, query, eligibility, membership, and history relationships.
+- Added service-owned transactional application submission, transitions, approval, membership creation, collision-safe membership numbering, secure documents, and public verification.
+- Applicant remains a workflow state, never a role; Company, Individual, and Student remain membership types.
+- Student rules enforce age 18–25 inclusive and category-specific Grade 12, active tertiary, or prospective tertiary evidence.
+- Company and Individual approvals create `pending_payment`; eligible approved Students become `active` with a server-generated membership number and temporary one-year renewal date.
+- Documents are private, policy-authorised, randomly named, checksum-protected PDF/JPEG/PNG files limited to 5 MB.
+- Added member/profile/application/document routes, reviewer queue/actions guarded by `memberships.review`, and privacy-preserving rate-limited public verification.
+- `composer validate`: passed.
+- `php artisan test`: 39 passed (158 assertions) using SQLite in memory.
+- `php artisan route:list`: 42 routes.
+- Laravel Pint: passed.
+- `npm.cmd run build`: Vite 7.3.6, 60 modules transformed, built in 1.00s.
+- `git diff --check`: passed.
+- MySQL 8.0.46: all 10 migrations applied; Task 3 migrations are batch 3.
+- Idempotent seed results preserved 4 roles, 9 provinces, and 3 membership types; now 23 permissions, 48 role-permission links, and 7 document types.
+- No users, applications, memberships, or uploaded files were created in the development database.
+- Temporary assumptions: Company/Individual fees remain zero pending confirmation; Student renewal is temporarily one year.
+- Recommended Task 4: confirm pricing/renewal rules and design payments, refunds, reconciliation, and certificate lifecycle before implementation.
+
+---
 
 ### 2026-08-17 – Task 2 Integration Checkpoint ✅
 
@@ -645,4 +637,4 @@ The command requires an existing user and existing role, prevents duplicate assi
 
 **Maintained by:** ISHEP Project Team  
 **Last verified:** 2026-08-17  
-**Next review:** Before Task 3 begins
+**Next review:** Before Task 4 begins

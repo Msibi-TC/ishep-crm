@@ -33,3 +33,13 @@ All new domain models must follow the planned ISHEP conventions and be introduce
 - Portable string columns store values controlled by `AccountStatus`, `SystemRole`, and `BillingPeriod` PHP backed enums.
 - Roles, permissions, pivots, and audit logs do not use soft deletes.
 - Membership fees use `decimal(12,2)`. Initial membership fees are zero pending business confirmation; Student must remain zero unless requirements change.
+
+## Task 3 schema
+
+- Profile/organization: `member_profiles`, `organizations`.
+- Application workflow: `membership_applications`, `student_eligibilities`, `application_status_history`, `application_queries`.
+- Documents: `document_types`, `documents`; file bytes are never stored in MySQL.
+- Membership: `memberships`, `membership_status_history`.
+- Status history tables are append-only and have no `updated_at`; historical workflow records are not soft-deleted.
+- Membership numbers are nullable until activation and uniquely constrained.
+- Portable strings are controlled by PHP enums for profile, organization, application, eligibility, document, query, and membership statuses.

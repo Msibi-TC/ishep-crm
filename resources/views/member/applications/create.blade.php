@@ -1,0 +1,2 @@
+@extends('layouts.app')
+@section('content')<div class="container py-5"><h1>Start membership application</h1><form method="POST" action="{{ route('member.applications.store') }}">@csrf<label class="form-label" for="membership_type_id">Membership type</label><select class="form-select mb-3" id="membership_type_id" name="membership_type_id" required>@foreach($types as $type)<option value="{{ $type->id }}">{{ $type->name }}</option>@endforeach</select><button class="btn btn-primary">Continue</button></form></div>@endsection

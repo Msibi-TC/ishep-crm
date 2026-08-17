@@ -71,6 +71,16 @@ php artisan users:assign-role user@example.com administrator
 
 The user and role must already exist. Company, Individual, and Student are membership types, not roles. Applicant status will arise from a future application submission and is not a permanent role.
 
+## Membership application workflow
+
+Authenticated users can maintain one member profile, create or resume a membership application, upload private supporting documents, submit, respond to administrator queries, resubmit, and withdraw before a final decision. Administrators and Super Users with `memberships.review` can review documents and student eligibility, query, approve, or reject applications.
+
+- Company and Individual approvals create `pending_payment` memberships because payments are not implemented.
+- Eligible Student approvals create active one-year memberships and server-generated numbers in `ISHEP-YYYY-000001` format. The renewal period is temporary pending business confirmation.
+- Student applicants must be 18–25 inclusive and upload evidence matching Grade 12, active tertiary, or prospective tertiary status.
+- Uploads allow PDF, JPEG, or PNG up to 5 MB and are stored on Laravel's private local disk, never in `public/`.
+- Public verification returns only display name/company, membership type, status, and renewal date.
+
 ## Frontend build commands
 
 ```bash
@@ -105,4 +115,4 @@ git push origin <branch>
 
 ## Notes
 
-Task 2 establishes authentication, RBAC, reference data, and audit storage only. It does not implement membership applications, payments, careers, or bursary workflows.
+Task 3 adds membership profiles, applications, secure documents, review, and minimal public verification. Payments, refunds, subscriptions, careers, bursaries, and final certificates remain out of scope.

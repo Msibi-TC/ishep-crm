@@ -21,6 +21,21 @@ This project is the foundation for the ISHEP CRM and Portal Suite. It is intenti
 - Blade role/permission directives support navigation visibility, while middleware remains the enforcement boundary.
 - Audit logs provide an append-only foundation for recording future sensitive operations.
 
+## Membership domain
+
+- `MemberProfile` is a one-to-one extension of authenticated identity; login credentials remain only on `users`.
+- Users have historical applications and memberships. Services enforce at most one non-terminal application and one current membership transactionally.
+- Application transitions and membership transitions append immutable history records.
+- Company applications reference an owned organization; Individual and Student applications cannot create organization records.
+- `MembershipApplicationService`, `StudentEligibilityService`, and `MembershipApprovalService` own workflow rules rather than controllers.
+- Active membership numbers use the database-issued membership ID in `ISHEP-YYYY-000001` format, protected by a unique constraint.
+
+## Document and verification security
+
+- `SecureDocumentService` validates uploads, creates random filenames, stores SHA-256 checksums, and writes to the private local disk outside the public root.
+- Policies restrict downloads to the owner or a reviewer with `memberships.review`; raw storage paths are hidden.
+- Public verification is rate-limited and exposes only an approved display name, membership type/status, and renewal date.
+
 ## Naming conventions
 
 - App\Services for domain workflows
@@ -36,7 +51,7 @@ This project is the foundation for the ISHEP CRM and Portal Suite. It is intenti
 - MySQL is configured for `utf8mb4` and UTC timestamps
 - Password hashes and remember/reset tokens are never rendered or logged
 - Login attempts are throttled and invalid-credential responses are generic
-- No payment, membership-application, careers, or bursary workflow is implemented yet
+- No payment, refund, subscription, careers, bursary, or final-certificate workflow is implemented yet
 
 ## Future direction
 

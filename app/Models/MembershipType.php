@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\BillingPeriod;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MembershipType extends Model
 {
@@ -19,5 +20,15 @@ class MembershipType extends Model
             'is_student' => 'boolean',
             'active' => 'boolean',
         ];
+    }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(MembershipApplication::class);
+    }
+
+    public function memberships(): HasMany
+    {
+        return $this->hasMany(Membership::class);
     }
 }

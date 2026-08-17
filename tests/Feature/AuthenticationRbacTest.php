@@ -149,7 +149,7 @@ class AuthenticationRbacTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $this->assertDatabaseCount('roles', 4);
-        $this->assertDatabaseCount('permissions', 22);
+        $this->assertDatabaseCount('permissions', 23);
         $this->assertDatabaseCount('provinces', 9);
         $this->assertDatabaseCount('membership_types', 3);
         $this->assertDatabaseHas('membership_types', ['code' => 'student', 'fee' => 0]);

@@ -23,6 +23,10 @@
                         <li class="nav-item"><a class="nav-link" href="{{ route('verify.membership') }}">Verify membership</a></li>
                         @auth
                             <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('member.applications.index') }}">My membership</a></li>
+                            @permission('memberships.review')
+                                <li class="nav-item"><a class="nav-link" href="{{ route('admin.memberships.index') }}">Applications</a></li>
+                            @endpermission
                             @role('administrator')
                                 <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.administrator') }}">Administration</a></li>
                             @endrole

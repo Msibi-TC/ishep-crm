@@ -27,7 +27,7 @@ class RolePermissionSeeder extends Seeder
             'documents.upload_own', 'payments.view_own', 'payments.manage', 'refunds.request',
             'refunds.process', 'certificates.view_own', 'users.view', 'users.create', 'users.review',
             'users.suspend', 'users.assign_roles', 'reports.view', 'notices.publish', 'jobs.post',
-            'jobs.moderate', 'bursaries.post', 'bursaries.moderate', 'system.manage',
+            'jobs.moderate', 'bursaries.post', 'bursaries.moderate', 'memberships.review', 'system.manage',
         ];
 
         foreach ($permissionCodes as $code) {
@@ -45,7 +45,7 @@ class RolePermissionSeeder extends Seeder
             SystemRole::Administrator->value => [
                 'users.view', 'users.create', 'users.review', 'users.suspend', 'users.assign_roles',
                 'reports.view', 'notices.publish', 'jobs.post', 'jobs.moderate', 'bursaries.post',
-                'bursaries.moderate',
+                'bursaries.moderate', 'memberships.review',
             ],
             SystemRole::Finance->value => [
                 'payments.view_own', 'payments.manage', 'refunds.request', 'refunds.process', 'reports.view',

@@ -15,11 +15,18 @@
 - Add an audit-log storage foundation
 - Keep automated tests isolated from the development database
 
-## Phase 2B: membership CRM (next)
+## Phase 2B: membership CRM (complete)
 
 - Create member and organization models
 - Add member onboarding and verification workflows
 - Apply the established access-control and audit foundations
+
+## Task 4: payment and renewal design (next)
+
+- Confirm Company and Individual fees and Student renewal rules
+- Design payment-provider integration, receipts, refunds, and reconciliation
+- Activate pending-payment memberships only after verified payment events
+- Do not implement certificates until their approval and revocation rules are confirmed
 
 ## Phase 3: public portals
 
