@@ -23,3 +23,13 @@ Use UTC for application and database timestamps. Locality-specific display shoul
 ## Governance
 
 All new domain models must follow the planned ISHEP conventions and be introduced incrementally as the CRM grows.
+
+## Task 2 schema
+
+- The existing `users` table is retained and extended additively with account status, last login, and nullable creator/updater references.
+- RBAC tables are `roles`, `permissions`, `role_permissions`, and `user_roles` with unique pivot combinations and foreign keys.
+- Reference tables are `provinces`, `professions`, and `membership_types`.
+- `audit_logs` is append-only and intentionally has no `updated_at` or soft deletes.
+- Portable string columns store values controlled by `AccountStatus`, `SystemRole`, and `BillingPeriod` PHP backed enums.
+- Roles, permissions, pivots, and audit logs do not use soft deletes.
+- Membership fees use `decimal(12,2)`. Initial membership fees are zero pending business confirmation; Student must remain zero unless requirements change.

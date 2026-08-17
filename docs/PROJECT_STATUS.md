@@ -1,7 +1,7 @@
 # ISHEP CRM & Portal Suite – Implementation Status
 
 **Last updated:** 2026-08-17  
-**Project phase:** Phase 1 – Foundation (Complete)
+**Project phase:** Task 2 – Authentication, RBAC and Core Database Foundation (Complete)
 
 ---
 
@@ -33,7 +33,7 @@ The foundational layer has been established with:
 - Documentation framework
 - Automated test harness
 
-**Next phase:** Phase 2 – Membership CRM (not yet started)
+**Next phase:** Task 3 – Membership domain design and application workflow (not yet started)
 
 ---
 
@@ -305,7 +305,7 @@ Duration: 0.81s
 **Repository:** Local Git initialized in project root  
 **Remote:** https://github.com/Msibi-TC/ishep-crm.git  
 **Branch:** main (default)  
-**Latest pushed commit:** a1bfd0b – `chore: complete task 1 github checkpoint`
+**Latest pushed commit:** 287d7b8 – `docs: record task 1 github checkpoint`
 
 ### Commit 1: Foundation (5426c9a)
 - Created complete Laravel 12 scaffold with 75 files
@@ -323,6 +323,11 @@ Duration: 0.81s
 - **Message:** `chore: complete task 1 github checkpoint`
 - **Full hash:** `a1bfd0bea1d67f0005373c05c802467c8d8769eb`
 - **Status:** ✅ Pushed to `origin/main`
+
+### Commit 3: Task 1 Status Record (287d7b8)
+- Recorded the verified GitHub checkpoint and actual Task 1 results
+- Full hash: `287d7b86bf7a17b69dbaa5da095249bc47086d8c`
+- Status: ✅ Pushed to `origin/main`
 
 ---
 
@@ -374,34 +379,17 @@ The checkpoint review found stale status wording about pending/staged work and c
 
 ## Blockers
 
-**None** – Foundation phase is complete and unblocked.
+**None** – Task 2 is complete and unblocked.
 
 ---
 
 ## Manual Actions Required from User
 
-**MySQL database setup (required before Phase 2):**
+The local MySQL database is configured, migrated, and seeded. No further database action is required for Task 2. An authorised operator may assign a staff role to an existing account when needed:
 
-1. Open MySQL Workbench or MySQL CLI
-2. Create database:
-   ```sql
-   CREATE DATABASE ishep_crm 
-   CHARACTER SET utf8mb4 
-   COLLATE utf8mb4_unicode_ci;
-   ```
-3. Create application user:
-   ```sql
-   CREATE USER 'ishep_app'@'127.0.0.1' IDENTIFIED BY 'your_secure_password';
-   GRANT ALL PRIVILEGES ON ishep_crm.* TO 'ishep_app'@'127.0.0.1';
-   FLUSH PRIVILEGES;
-   ```
-4. Update `.env` with actual credentials:
-   ```
-   DB_HOST=127.0.0.1
-   DB_USERNAME=ishep_app
-   DB_PASSWORD=your_secure_password
-   ```
-5. Run migrations when Phase 2 tasks begin
+```bash
+php artisan users:assign-role user@example.com administrator
+```
 
 **Security reminders:**
 - `.env` is Git-ignored and should never be committed
@@ -412,31 +400,26 @@ The checkpoint review found stale status wording about pending/staged work and c
 
 ## Pending Tasks
 
-### Phase 2 – Membership CRM (Not started)
+### Task 3 – Membership CRM (Not started)
 
-1. **Database setup**
-   - Create `ishep_crm` MySQL database
-   - Set character set to `utf8mb4` and collation to `utf8mb4_unicode_ci`
-   - Create MySQL user with database-specific privileges
-
-2. **Create member and organization models**
+1. **Create member and organization models**
    - `php artisan make:model Member -m` (with migration)
    - `php artisan make:model Organization -m`
    - Define relationships and attributes
 
-3. **Add membership workflow controller**
+2. **Add membership workflow controller**
    - `App\Http\Controllers\MembershipController`
    - Implement member onboarding, renewal, and verification
 
-4. **Build member verification service**
+3. **Build member verification service**
    - `App\Services\MemberVerificationService`
    - Implement secure credential checking
 
-5. **Create member access control**
+4. **Create member access control**
    - `App\Policies\MemberPolicy`
    - Implement authorization checks
 
-6. **Add membership tests**
+5. **Add membership tests**
    - `tests/Feature/MembershipTest.php`
    - Test member creation, verification, renewal workflows
 
@@ -456,14 +439,16 @@ The checkpoint review found stale status wording about pending/staged work and c
 
 ## Recommended Next Task
 
-**Start Phase 2 – Membership CRM:**
+**Start Task 3 – Membership domain and application workflow:**
 
 1. **First step:** Create the database migration and `Member` model
    ```bash
    php artisan make:model Member -m
    ```
 
-2. **Define member schema** in the migration:
+2. **Define member and membership-application schemas** after business-rule review. Applicant state must belong to an application record, not the user-role system.
+
+3. **Define the member schema** without duplicating authentication identity fields unnecessarily:
    - `id` (primary key)
    - `email` (unique, for verification and contact)
    - `first_name`, `last_name`
@@ -474,15 +459,52 @@ The checkpoint review found stale status wording about pending/staged work and c
    - `joined_at`, `expires_at` (timestamps)
    - `created_at`, `updated_at`, `deleted_at` (soft deletes)
 
-3. **Create a basic member repository** to abstract data access for later portals
+4. **Create a basic member repository** to abstract data access for later portals
 
-4. **Write tests** for member creation and verification workflows
+5. **Write tests** for member creation, application state, and verification workflows
 
 This will unlock the membership portal and provide the foundation for careers and bursaries workflows.
 
 ---
 
 ## Changelog
+
+### 2026-08-17 – Task 2 Authentication, RBAC and Core Database Foundation ✅
+
+**Implemented by Codex on `feature/auth-rbac-foundation`:**
+- Functional registration, login, logout, forgot-password, and password-reset flows
+- Secure public registration assigning only `registered_user`; submitted roles, permissions, and account status are ignored
+- Active-account enforcement, login throttling, generic authentication errors, session regeneration, and last-login tracking
+- Staff role and permission middleware, gates/Blade directives, and protected Administrator, Finance, and Super User / IT dashboard placeholders
+- Secure `users:assign-role` console command for existing users and roles
+- Additive user-account migration plus roles, permissions, pivots, provinces, professions, membership types, and audit-log tables
+- Backed enums for account status, system roles, and billing period
+- Idempotent seeders for 4 roles, 22 permissions, 9 South African provinces, and 3 membership types
+- Company, Individual, and Student recorded as membership types; Applicant is not represented as a role
+- Existing Phase 1 public routes and pages preserved
+
+**Verification:**
+- `composer validate` passed
+- `php artisan test`: 22 passed (80 assertions) using SQLite in memory
+- `php artisan route:list`: 21 named/framework routes with no duplicate names
+- Laravel Pint: passed
+- `npm run build`: Vite 7.3.6, 56 modules transformed, built in 1.73s
+- `git diff --check`: passed
+- MySQL 8.0.46 `ishep_crm`: all 7 migrations ran; Task 2 migrations are batch 2
+- MySQL seed counts: 4 roles, 22 permissions, 9 provinces, 3 membership types, 46 role-permission assignments
+- No administrator or other hardcoded user was created
+
+**Manual staff-role assignment:**
+```bash
+php artisan users:assign-role user@example.com administrator
+```
+The command requires an existing user and existing role, prevents duplicate assignments, and records console assignments with a null assigner.
+
+**Known issues:** None identified in the Task 2 scope. Membership fees are temporarily zero pending business confirmation.
+
+**Recommended next task:** Design the Member and Organization domain plus the membership-application lifecycle. Keep applicant status tied to an application record rather than a user role; do not add payment processing until its business rules are approved.
+
+---
 
 ### 2026-08-17 – Task 1 GitHub Checkpoint ✅
 

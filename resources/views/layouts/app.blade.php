@@ -21,8 +21,27 @@
                         <li class="nav-item"><a class="nav-link" href="{{ route('careers') }}">Careers</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('bursaries') }}">Bursaries</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('verify.membership') }}">Verify membership</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-light ms-lg-2" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="btn btn-warning ms-lg-2" href="{{ route('register') }}">Register</a></li>
+                        @auth
+                            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            @role('administrator')
+                                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.administrator') }}">Administration</a></li>
+                            @endrole
+                            @role('finance')
+                                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.finance') }}">Finance</a></li>
+                            @endrole
+                            @role('super_user')
+                                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.super-user') }}">System</a></li>
+                            @endrole
+                            <li class="nav-item">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-light ms-lg-2">Logout</button>
+                                </form>
+                            </li>
+                        @else
+                            <li class="nav-item"><a class="btn btn-outline-light ms-lg-2" href="{{ route('login') }}">Login</a></li>
+                            <li class="nav-item"><a class="btn btn-warning ms-lg-2" href="{{ route('register') }}">Register</a></li>
+                        @endauth
                     </ul>
                 </div>
             </div>

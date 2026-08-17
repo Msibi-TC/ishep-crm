@@ -7,11 +7,19 @@
 - Add modular structure for future workflows
 - Confirm frontend build and test health
 
-## Phase 2: membership CRM
+## Phase 2A: authentication and core data foundation (complete)
+
+- Add session authentication and password recovery
+- Add account-status enforcement and RBAC
+- Seed staff roles, permissions, provinces, and membership types
+- Add an audit-log storage foundation
+- Keep automated tests isolated from the development database
+
+## Phase 2B: membership CRM (next)
 
 - Create member and organization models
 - Add member onboarding and verification workflows
-- Implement access control and audit trails
+- Apply the established access-control and audit foundations
 
 ## Phase 3: public portals
 

@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PublicPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,5 +13,25 @@ Route::get('/membership', [PublicPageController::class, 'membership'])->name('me
 Route::get('/careers', [PublicPageController::class, 'careers'])->name('careers');
 Route::get('/bursaries', [PublicPageController::class, 'bursaries'])->name('bursaries');
 Route::get('/verify-membership', [PublicPageController::class, 'verifyMembership'])->name('verify.membership');
-Route::view('/login', 'auth.login')->name('login');
-Route::view('/register', 'auth.register')->name('register');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+});
+
+Route::middleware(['auth', 'account.active'])->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/administrator', [DashboardController::class, 'administrator'])
+        ->middleware('role:administrator')->name('dashboard.administrator');
+    Route::get('/dashboard/finance', [DashboardController::class, 'finance'])
+        ->middleware('role:finance')->name('dashboard.finance');
+    Route::get('/dashboard/super-user', [DashboardController::class, 'superUser'])
+        ->middleware('role:super_user')->name('dashboard.super-user');
+});
