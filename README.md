@@ -1,5 +1,11 @@
 # ISHEP CRM and Portal Suite
 
+## Careers and Bursary portals
+
+The plain-PHP application now provides public, searchable open Career and Bursary listings; permission-protected draft/publish/close/archive management; member-owned draft and submission workflows; and staff review timelines. Members can browse `/careers` and `/bursaries`, manage their applications under each portal's `/applications` route, and receive truthful decision statuses. Administrators and super users use `/admin/careers` and `/admin/bursaries`; access is enforced through the existing `jobs.*` and `bursaries.*` permissions, so finance users do not inherit moderation.
+
+Apply `plain-php/database/patches/2026_08_18_create_careers_bursaries.sql` once to an existing database. New installations receive the same six tables from `install.sql`. Attachments are deferred because current private documents are membership-application-bound; notifications, email delivery, third-party recruitment/bursary services, exports, and external integrations are also deferred.
+
 ## Finance and membership activation
 
 The plain-PHP MVP provides effective-dated fee schedules, one membership and invoice per approved application, manual payment allocation, append-only reversals, refund requests, and manual refund recording. Zero values on `membership_types` remain non-authoritative placeholders: without a positive active schedule, approval creates `awaiting_fee_configuration` and no invoice. Membership activates only after its invoice reaches zero balance.

@@ -1,5 +1,22 @@
 # Plain-PHP Migration Status
 
+## 2026-08-18 - Careers and Bursary portals
+
+- Verified starting checkpoint: finance workflow `bacde7c` and profession dropdown fix `537bf27`, both pushed to `origin/migration/plain-php-mvp` before portal implementation.
+- Added and applied additive `2026_08_18_create_careers_bursaries.sql`, mirrored in `install.sql`: Career/Bursary opportunities, member-owned applications, and append-only event timelines. The verified application-table count is now 32.
+- Public pages expose only published opportunities within their closing dates, with bounded search/filter queries and escaped responsive cards/details. Draft and archived records are hidden.
+- Existing `jobs.post`, `jobs.moderate`, `bursaries.post`, and `bursaries.moderate` permissions protect staff management and review. Finance users receive no implicit access. Mutations use CSRF, prepared statements, transactions, random public references, server-enforced transitions, audit logs, and authenticated ownership.
+- Career decisions follow draft/submitted/review/shortlist/unsuccessful/withdrawn/hired states; Bursary decisions use draft/submitted/review/shortlist/approved/unsuccessful/withdrawn. Employment is never guaranteed, and bursary approval does not claim disbursement.
+- Cross-portal document associations are deferred: the verified document schema is membership-application-bound, so reusing it now would weaken ownership and foreign-key integrity. Existing private storage was not changed.
+- Automated rollback-backed integration covers authorization, public visibility/search, profile/declaration gates, idempotency, review decisions, invalid transitions, events, and audits. External recruitment providers, bursary providers, notifications/email, and exports remain deferred.
+
+## 2026-08-18 - Combined finance and profession checkpoint
+
+- The finance and membership-activation workflow was committed as `bacde7c` and pushed to `origin/migration/plain-php-mvp`.
+- The profession reference-data correction was subsequently committed as `537bf27` and pushed to the same branch. The final branch therefore contains the completed finance workflow together with the populated profession dropdown; published history was preserved and not rewritten.
+- Final combined verification: database connection passed, 26/26 application tables verified, 22 active professions loaded, 156 automated checks passed, `git diff --check` passed, and the working tree was synchronized with the remote branch.
+- No credentials, `.env` files, logs, sessions, private uploads, database exports, banking data, or disposable test records were committed.
+
 ## 2026-08-18 — Profession dropdown reference-data fix
 
 - Root cause: the `professions` table existed, and the prepared active-only alphabetical repository query and profile template were correct, but the table had never been seeded. Before the fix it contained 0 total, 0 active, and 0 inactive rows.

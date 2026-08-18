@@ -1,0 +1,2 @@
+<?php
+namespace Ishep\Http\Middleware;use Ishep\Bootstrap\Application;use Ishep\Http\{Request,Response};final class PortalStaffMiddleware{public function __construct(private array $permissions){}public function __invoke(Request $r,callable $next):Response{$u=Application::instance()->auth()->user();$granted=$u?Application::instance()->roles()->permissions((int)$u['id']):[];return array_intersect($this->permissions,$granted)?$next($r):Application::instance()->render('errors/403',[],403);}}

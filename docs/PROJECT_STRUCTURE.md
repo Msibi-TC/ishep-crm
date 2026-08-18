@@ -1,5 +1,13 @@
 # ISHEP CRM Project Structure
 
+## Careers and Bursary domain
+
+- `plain-php/database/patches/2026_08_18_create_careers_bursaries.sql`: six additive opportunity, application, and event tables, mirrored in `install.sql`.
+- `plain-php/src/Repositories/PortalRepository.php`: prepared public filters, ownership-scoped applications, staff queues, and timelines.
+- `plain-php/src/Services/PortalService.php` and `PortalStatus.php`: validation, transactions, permissions, publishing, submission, withdrawal, and review transitions.
+- `plain-php/src/Http/Controllers/PortalController.php` and `PortalStaffMiddleware.php`: shared HTTP orchestration for both domains.
+- `plain-php/templates/pages/portals/`: responsive public, member, and staff pages using escaped plain text.
+
 ## Plain-PHP finance domain
 
 - `plain-php/database/patches/2026_08_18_create_finance_workflow.sql`: additive nine-table schema mirrored in `install.sql`.
