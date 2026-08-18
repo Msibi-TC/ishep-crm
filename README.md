@@ -89,6 +89,8 @@ The user and role must already exist. Company, Individual, and Student are membe
 
 The active plain-PHP runtime provides `GET /dashboard`, `GET /profile`, `GET /profile/edit`, and CSRF-protected `POST /profile`. Profile updates always target the authenticated session user. Account email is read-only here, and roles and account status cannot be changed through this workflow. Existing installations apply `plain-php/database/patches/2026_08_18_create_member_profiles.sql` once; new installations receive the same schema from `plain-php/database/install.sql`.
 
+Membership applications use `membership_applications` and append-only `membership_application_events`, installed by `2026_08_18_create_membership_applications.sql`. Members use `/membership/application`; administrators and super users review through `/admin/membership-applications`. The lifecycle is `draft → submitted → under_review → approved|rejected`, with allowed withdrawal and explicit rejected-application correction. Approval does not mean paid or activated membership. Documents, payments, activation, and certificates remain deferred, and finance users cannot review.
+
 ## Frontend build commands
 
 ```bash

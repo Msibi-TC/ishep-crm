@@ -164,3 +164,16 @@ Recommended next task: configure an ignored local MVP environment, run read/writ
 - Disposable integration and HTTP users/professions plus related audit/profile/role data were removed. Verification passed: PDO connection, 11/11 schema tables, 60 automated checks, all non-vendor PHP syntax, HTTP status matrix, `git diff --check`, and private-file checks.
 - Release target: commit `feat: add member profile and dashboard` pushed only to `origin/migration/plain-php-mvp`; the resulting hash and push confirmation are reported at handoff.
 - Recommended next task: implement the membership-application workflow using the completed profile foundation.
+
+### 2026-08-18 — End-to-end membership application workflow
+
+- Started from clean pushed profile checkpoint `6c9415904fdc2a79b8c1d87349a633d58fc55926` on `migration/plain-php-mvp`.
+- Added and applied the reviewed additive `2026_08_18_create_membership_applications.sql` only after confirming both target tables were absent. New installs receive the same application/event schema.
+- Public references use `ISH-APP-YYYY-` plus 16 uppercase random hex characters; sequential IDs remain internal.
+- Centralized transitions cover submission, withdrawal, review, approval, rejection, and explicit rejected correction. Approved and withdrawn rows are terminal; withdrawn members may create a new application.
+- Submission requires an active authenticated registered user, membership permission, complete profile, active type, declaration, CSRF, transaction, timeline event, and audit entry.
+- Administrator and super-user reviewers receive a bounded searchable/filterable queue, profile summary, timeline, separated public/private notes, and transactional decisions. Registered and finance users cannot review.
+- Member and staff dashboards now use real application state/counts. Fees remain unconfirmed; documents, payments, activation, certificates, Careers, and Bursary workflows remain deferred.
+- Schema verification covers 13 tables and the public-reference unique index. The integration suite passes 85 checks and removes named disposable data in `finally`.
+- Release target: `feat: add membership application workflow` pushed only to `origin/migration/plain-php-mvp`; final verification, commit hash, and push state are reported at handoff.
+- Recommended next stage: private document collection and verification after retention and file rules are approved.
