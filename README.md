@@ -139,6 +139,8 @@ php plain-php/tests/run.php
 php -S localhost:8080 -t plain-php/public plain-php/bin/serve.php
 ```
 
+The active UI uses the official logo at `plain-php/public/assets/images/ishep-logo.jpeg` and centralized ISHEP red, charcoal, and gold semantic tokens in `plain-php/public/assets/css/app.css`. Shared navigation, forms, cards, tables, status components, Careers/Bursaries, and printable finance views inherit this accessible responsive theme without remote font or image dependencies.
+
 ## Git workflow
 
 ```bash

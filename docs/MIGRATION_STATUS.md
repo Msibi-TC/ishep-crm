@@ -1,5 +1,12 @@
 # Plain-PHP Migration Status
 
+## 2026-08-18 - Official ISHEP branding
+
+- Integrated the supplied official logo at `plain-php/public/assets/images/ishep-logo.jpeg` into the shared linked header and printable invoice/receipt views, retaining its 738x497 intrinsic dimensions and aspect ratio with meaningful alternative text.
+- Replaced the obsolete navy/blue theme with centralized ISHEP red (`#C90000`), dark red (`#990000`), charcoal (`#2D2D2D`/`#1F1F1F`), gold (`#C5B300`/`#827600`), and neutral semantic tokens. Primary actions, navigation, cards, forms, tables, badges, progress, alerts, pagination, footer, and the landing page now inherit the shared brand system.
+- Accessibility work includes a skip link, visible keyboard focus, non-colour navigation indicators, semantic status colours, intrinsic image sizing, reduced-motion support, mobile navigation/actions, responsive table containment, and high-contrast grayscale-safe print rules. Gold is not used for ordinary text on white.
+- Static branding checks cover the logo asset/path/alt text, centralized tokens, removal of obsolete primary blue tokens, focus/reduced-motion rules, and finance print branding. Responsive CSS was reviewed at 320, 375, 768, 1024, and 1440px; final cross-browser visual and print-preview review remains recommended on deployment targets.
+
 ## 2026-08-18 - Careers and Bursary portals
 
 - Verified starting checkpoint: finance workflow `bacde7c` and profession dropdown fix `537bf27`, both pushed to `origin/migration/plain-php-mvp` before portal implementation.

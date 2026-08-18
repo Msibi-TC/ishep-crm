@@ -54,3 +54,9 @@ The Laravel application files at the repository root are temporary legacy refere
 `plain-php/.env` contains local secrets and must remain ignored and untracked. Configure it from `plain-php/.env.example`; never paste its values into documentation or logs. Logs, session files, private uploads, Composer-generated `plain-php/vendor/`, database exports, and disposable test data must not be committed.
 
 The database installer is manual-only. Existing installations apply the membership-type, profile, application, and `2026_08_18_create_member_documents.sql` additive patches only after confirming targets are absent. Document validation and the HOSTAFRICA-compatible private root are centralized in `plain-php/config/documents.php`. Never drop, recreate, truncate, or reset `ishep_crm` during startup or testing.
+
+## Brand assets and presentation
+
+- `plain-php/public/assets/images/ishep-logo.jpeg` is the single official logo source used by the shared header and printable invoice/receipt views.
+- `plain-php/public/assets/css/app.css` owns the ISHEP palette and semantic component tokens. Red identifies primary actions and brand accents, charcoal provides structural contrast, gold is reserved for accents/focus, and semantic success/warning/danger/info colours retain their meanings.
+- The shared layout provides a skip link, visible keyboard focus, responsive navigation/footer, intrinsic logo dimensions, reduced-motion handling, narrow-table containment, and grayscale-readable print rules.

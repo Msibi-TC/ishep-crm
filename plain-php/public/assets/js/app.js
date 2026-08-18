@@ -1,1 +1,1 @@
-(() => {'use strict';const summary=document.querySelector('[data-error-summary]');if(summary)summary.focus();})();
+(() => {'use strict';const summary=document.querySelector('[data-error-summary]');if(summary)summary.focus();const current=window.location.pathname.replace(/\/$/,'')||'/';document.querySelectorAll('.site-header .nav-link').forEach(link=>{const path=new URL(link.href,window.location.origin).pathname.replace(/\/$/,'')||'/';if(current===path||path!=='/'&&current.startsWith(path+'/')){link.classList.add('active');link.setAttribute('aria-current','page');}});})();
