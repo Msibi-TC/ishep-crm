@@ -13,8 +13,13 @@
 | Target technology | PHP 8.3+, Apache, PDO/MySQL or MariaDB, front controller, server templates, Bootstrap/static assets, native sessions/CSRF |
 | Migration stage | Stage 0 audit complete; implementation not started |
 | Latest pre-audit commit | `bf49894` (`docs: finalize task 2 status record`) |
-| Audit commit | The commit containing this file; see branch history (a commit cannot contain its own final hash) |
-| Pushed branch | Pending final validation/commit/push |
+| Audit commit | `bcd0dfe` (`docs: audit Laravel to plain PHP migration`) |
+| Documentation correction | `a812741` (`docs: fix migration plan whitespace`); no history rewrite was performed |
+| Pushed branch | `migration/plain-php-audit` successfully pushed to `origin` |
+| Push state | Local branch synchronized with `origin/migration/plain-php-audit` before this checkpoint update |
+| Implementation state | Stage 0 documentation only; Stage 1 application implementation has not started |
+| Working tree state | Clean immediately before this checkpoint-only status edit |
+| Audit-status commit | The commit containing this update; it does not claim to contain its own final hash |
 
 ## Documentation reviewed
 
@@ -61,7 +66,7 @@ The PHPUnit configuration selects SQLite `:memory:`, array sessions/cache/mail, 
 
 ## Blockers, risks, and pending decisions
 
-There is no blocker to completing the documentation audit. The current environment could not freshly reproduce PHP-dependent checks because PHP 8.3 lacks ZIP extraction and the alternate XAMPP PHP is 8.0.30; align PHP 8.3 plus required extensions before Stage 1.
+There is no blocker to completing the documentation audit. Stage 1 remains blocked because the active PHP 8.3 CLI lacks ZIP extraction and the alternate XAMPP PHP is 8.0.30. Before Stage 1, align the Apache and CLI runtimes on PHP 8.3 and enable `ctype`, `curl`, `dom`, `fileinfo`, `filter`, `hash`, `json`, `mbstring`, `openssl`, `pcre`, `PDO`, `pdo_mysql`, `session`, `tokenizer`, `xml`, and `zip`. `intl` is recommended for future locale-aware formatting but is not a Stage 1 requirement.
 
 Primary risks are authentication/security regression, confusion between placeholders/permissions and implemented domains, loss of Eloquent casts/transactions, incomplete business rules, premature framework-table removal, visual drift, and unconfirmed shared-host capabilities.
 
@@ -82,3 +87,11 @@ Recommended next task: Stage 1 only—create a parallel, non-routed plain-PHP fo
 - Completed the Laravel inventory and plain-PHP migration design.
 - Recorded current and historical baseline results separately.
 - No application runtime or database changes made.
+
+### 2026-08-18 — Audit checkpoint
+
+- Recorded audit commit `bcd0dfe` and the non-rewritten whitespace follow-up `a812741`.
+- Confirmed `migration/plain-php-audit` was pushed to `origin` and synchronized before this status update.
+- Confirmed only the two approved migration documents differ from `origin/main`.
+- Confirmed the Stage 0 documentation is committed and the plain-PHP application implementation has not started.
+- Kept Stage 1 blocked pending aligned PHP 8.3 Apache/CLI runtimes and required extensions.
