@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `membership_type_id` bigint unsigned DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `account_status` varchar(255) NOT NULL DEFAULT 'active',
   `last_login_at` timestamp NULL DEFAULT NULL,
@@ -20,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`), UNIQUE KEY `users_email_unique` (`email`),
-  KEY `users_account_status_index` (`account_status`),
+  KEY `users_account_status_index` (`account_status`), KEY `users_membership_type_index` (`membership_type_id`),
   CONSTRAINT `users_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   CONSTRAINT `users_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -96,6 +97,12 @@ CREATE TABLE IF NOT EXISTS `audit_logs` (
   KEY `audit_logs_entity_type_index` (`entity_type`), KEY `audit_logs_entity_index` (`entity_type`,`entity_id`),
   CONSTRAINT `audit_logs_actor_foreign` FOREIGN KEY (`actor_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+SET @membership_fk_exists = (SELECT COUNT(*) FROM information_schema.table_constraints WHERE constraint_schema='ishep_crm' AND table_name='users' AND constraint_name='users_membership_type_foreign');
+SET @membership_fk_sql = IF(@membership_fk_exists=0,'ALTER TABLE `users` ADD CONSTRAINT `users_membership_type_foreign` FOREIGN KEY (`membership_type_id`) REFERENCES `membership_types` (`id`) ON DELETE SET NULL','SELECT 1');
+PREPARE membership_fk_statement FROM @membership_fk_sql;
+EXECUTE membership_fk_statement;
+DEALLOCATE PREPARE membership_fk_statement;
 
 INSERT IGNORE INTO `roles` (`code`,`name`,`description`,`is_system`,`created_at`,`updated_at`) VALUES
 ('registered_user','Registered User','Default public account role.',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),

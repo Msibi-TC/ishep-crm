@@ -1,8 +1,22 @@
 # ISHEP CRM and Portal Suite
 
+> **Current active application:** `plain-php/`
+>
+> **Web root:** `plain-php/public/`
+>
+> **Database:** `ishep_crm`
+>
+> **Local URL:** `http://localhost:8080`
+>
+> **Start command:** `php -S localhost:8080 -t plain-php/public plain-php/bin/serve.php`
+
+Use the [plain-PHP setup guide](plain-php/README.md) and [phpMyAdmin installation guide](plain-php/docs/PHPMYADMIN_SETUP.md). Verify with `php plain-php/bin/test-db.php`, `php plain-php/bin/verify-schema.php`, and `php plain-php/tests/run.php`.
+
+The Laravel files at the repository root are retained temporarily as legacy reference material. Do not use them as the active runtime or move/delete them during current plain-PHP feature work.
+
 ## Project purpose
 
-ISHEP CRM and Portal Suite is a Laravel-based multi-portal platform for membership administration, careers, and bursary workflows. This foundation establishes the project structure, environment configuration, shared branding, and public landing pages for the future CRM and portal system.
+ISHEP CRM and Portal Suite is currently delivered through a parallel plain-PHP application for membership administration, careers, and bursary workflows. The retained Laravel foundation documents and preserves earlier behavior while plain-PHP feature parity progresses.
 
 ## Technology stack
 

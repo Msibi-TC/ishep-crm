@@ -50,3 +50,7 @@ SELECT COUNT(*) AS membership_type_count FROM membership_types;
 Expected counts for a previously empty database are 4 roles, 22 permissions, 9 provinces, and 3 membership types. Then start the application and open `/health`; it should report the database as `reachable` without exposing connection details.
 
 Do not use destructive phpMyAdmin actions such as Drop, Empty, or Truncate as part of this setup.
+
+## Registration membership patch
+
+Databases imported before the completed registration workflow require the one-time additive patch at `plain-php/database/patches/2026_08_18_add_user_membership_type.sql`. It adds only the nullable `users.membership_type_id` column, index, and foreign key. New imports already include the column and create the same foreign key conditionally. Never run the one-time patch when the column already exists.

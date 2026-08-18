@@ -125,3 +125,30 @@ Recommended next task: configure an ignored local MVP environment, run read/writ
 - Added a non-destructive manual SQL installer for the existing empty `ishep_crm` database and a phpMyAdmin walkthrough.
 - Confirmed the installer does not create, drop, recreate, truncate, or automatically import the database and contains no legacy database-name reference.
 - Did not connect to, select through a client, import into, or otherwise modify the local database.
+
+### 2026-08-18 — Registration live-verification attempt
+
+- Verified repository `C:\xampp\htdocs\ishep-crm`, remote `https://github.com/Msibi-TC/ishep-crm.git`, and branch `migration/plain-php-mvp`.
+- Confirmed `plain-php/.env` exists, remains ignored and untracked, and loads `DB_DATABASE=ishep_crm` without exposing configuration values.
+- Confirmed PDO MySQL is enabled and the required database environment keys are present; the configured password currently resolves empty or missing.
+- `php plain-php/bin/test-db.php` failed safely because MySQL rejected the configured account with driver error 1045. Schema verification and database-backed registration tests remain blocked pending corrected local credentials.
+- A fresh-cookie `GET /register` returned HTTP 200, while `/health` returned HTTP 503 because the database was unreachable. The earlier public error was associated with a logged `PDOException`; a stale authenticated session can cause layout authentication to attempt the same rejected connection.
+- `php plain-php/tests/run.php` passed 25 static checks, and syntax validation passed across all non-vendor plain-PHP files.
+- Confirmed application data access uses PDO prepared statements. No migration, import, schema change, registration write, cleanup, or other database mutation was performed.
+- Added read-only `plain-php/bin/test-db.php` and `plain-php/bin/verify-schema.php` locally; they remain uncommitted until the complete live verification succeeds.
+- Registration workflow changes, live disposable-account testing, documentation finalization, commit, and push remain pending the MySQL credential correction.
+
+### 2026-08-18 — Authentication experience completed
+
+- The local `.env` credential correction resolved MySQL error 1045; `php plain-php/bin/test-db.php` now passes against `ishep_crm` without exposing credentials.
+- Schema verification passes with all 10 required tables, 4 roles, 22 permissions, 9 provinces, 3 membership types, exactly one `registered_user` role, and the required user membership column.
+- The registration-domain mismatch was an absent `users.membership_type_id`. Applied the reviewed additive nullable column/index/foreign-key change and recorded it in `plain-php/database/patches/2026_08_18_add_user_membership_type.sql`; no existing row was deleted or overwritten.
+- Registration now loads active membership types, validates the selected active record, normalizes email, enforces the centralized password policy, rejects duplicates safely, hashes with `password_hash()`, uses prepared PDO statements and a transaction, rolls back when role assignment fails, assigns only `registered_user`, regenerates the session, and redirects to the member dashboard.
+- Added field-level accessible errors, focused error summary, safe old input, neutral/pass/fail password requirements, ARIA live feedback, confirmation matching, and keyboard-accessible show/hide controls for registration, login, and reset forms. Passwords are never repopulated or transmitted for live validation.
+- Added authenticated-user redirects away from guest authentication routes while retaining POST+CSRF logout, environment-aware secure cookies, HttpOnly, SameSite=Lax, session regeneration, account-status enforcement, generic login errors, and throttling.
+- Live disposable account `codex.authentication.test@example.test` registered successfully, normalized correctly, stored a verified non-plaintext hash and membership type, received only `registered_user`, logged in, accessed the member dashboard, logged out, and was redirected to login when revisiting the protected dashboard.
+- Deleted exactly the disposable user after verification; its cascading test role link was removed and a follow-up count confirmed zero matching test users. The automated suite also removes its named integration users in `finally`.
+- Verification results: database connection passed; schema/reference baseline passed; `php plain-php/tests/run.php` passed 40 checks; all non-vendor PHP files passed `php -l`; `node --check plain-php/public/assets/js/auth-password.js` passed; `git diff --check` passed.
+- HTTP smoke results: `/`, `/register`, `/login`, `/forgot-password`, and `/health` returned 200; unauthenticated `/dashboard` returned 302; invalid CSRF returned 419. Registration and login both regenerated the session identifier.
+- Added `docs/PROJECT_STRUCTURE.md`, active-runtime details near the top of `README.md`, read-only database verification commands, password UX assets/policy, membership repository/schema patch, authentication middleware, and expanded disposable integration tests.
+- Remaining risk: perform a final manual screen-reader/mobile browser pass for announcement cadence, focus order, and visual presentation. Recommended next feature: implement the real member profile and member dashboard using the completed authentication foundation.

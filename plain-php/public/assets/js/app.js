@@ -1,1 +1,1 @@
-document.querySelectorAll('form').forEach((form)=>form.addEventListener('submit',()=>{const button=form.querySelector('button[type="submit"],button:not([type])');if(button){button.disabled=true;button.setAttribute('aria-busy','true');}}));
+(() => {'use strict';const summary=document.querySelector('[data-error-summary]');if(summary)summary.focus();})();
