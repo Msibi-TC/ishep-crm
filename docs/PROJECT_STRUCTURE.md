@@ -30,10 +30,10 @@ The Laravel application files at the repository root are temporary legacy refere
 | `plain-php/bin/` | Built-in-server router and read-only database/schema verification commands |
 | `plain-php/storage/logs/` | Private structured application logs |
 | `plain-php/storage/sessions/` | Native PHP session files and rate-limit state |
-| `plain-php/storage/private/` | Reserved non-public file storage |
+| `plain-php/storage/private/` | Denied, Git-ignored private documents served only through authorized controllers |
 
 ## Local configuration and safety
 
 `plain-php/.env` contains local secrets and must remain ignored and untracked. Configure it from `plain-php/.env.example`; never paste its values into documentation or logs. Logs, session files, private uploads, Composer-generated `plain-php/vendor/`, database exports, and disposable test data must not be committed.
 
-The database installer is manual-only. Existing installations apply the membership-type, member-profile, and `2026_08_18_create_membership_applications.sql` additive patches only after confirming their targets are absent. Application state and append-only transition events use separate tables. Never drop, recreate, truncate, or reset `ishep_crm` during startup or testing.
+The database installer is manual-only. Existing installations apply the membership-type, profile, application, and `2026_08_18_create_member_documents.sql` additive patches only after confirming targets are absent. Document validation and the HOSTAFRICA-compatible private root are centralized in `plain-php/config/documents.php`. Never drop, recreate, truncate, or reset `ishep_crm` during startup or testing.

@@ -177,3 +177,15 @@ Recommended next task: configure an ignored local MVP environment, run read/writ
 - Schema verification covers 13 tables and the public-reference unique index. The integration suite passes 85 checks and removes named disposable data in `finally`.
 - Release target: `feat: add membership application workflow` pushed only to `origin/migration/plain-php-mvp`; final verification, commit hash, and push state are reported at handoff.
 - Recommended next stage: private document collection and verification after retention and file rules are approved.
+
+### 2026-08-18 — Private document upload and verification
+
+- Started from clean pushed application checkpoint `bcb4fb48121bef21031d27c952cb9b5944a499fd`.
+- Applied additive `2026_08_18_create_member_documents.sql` after confirming all four targets were absent; schema verification now covers 17 tables and unique document references.
+- Added configurable PDF/JPEG/PNG validation at 5 MB, actual MIME checks, extension matching, random private names, SHA-256, contained paths, authorized attachment downloads, Apache deny rules, no-store and nosniff headers.
+- Members can upload, download, replace, and logically remove allowed states. Administrator and super-user reviewers can search, download, verify, and reject; finance and ordinary members cannot review.
+- Centralized pending, verified, rejected, replaced, and removed transitions preserve replacement history and write events plus audits.
+- `supporting_document` is optional because final requirements are absent. Submission is unchanged. Antivirus and retention expiry require production decisions.
+- Automated tests pass 113 checks with generated harmless fixtures and finally-style cleanup. Final HTTP, syntax, secret, commit, and push results are reported at handoff.
+- Release target: `feat: add private document verification workflow` pushed only to `origin/migration/plain-php-mvp`.
+- Recommended next stage: approve production antivirus, retention, backup, and per-membership requirements before making documents mandatory.

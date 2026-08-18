@@ -91,6 +91,8 @@ The active plain-PHP runtime provides `GET /dashboard`, `GET /profile`, `GET /pr
 
 Membership applications use `membership_applications` and append-only `membership_application_events`, installed by `2026_08_18_create_membership_applications.sql`. Members use `/membership/application`; administrators and super users review through `/admin/membership-applications`. The lifecycle is `draft → submitted → under_review → approved|rejected`, with allowed withdrawal and explicit rejected-application correction. Approval does not mean paid or activated membership. Documents, payments, activation, and certificates remain deferred, and finance users cannot review.
 
+Private documents use four document tables and `2026_08_18_create_member_documents.sql`. Members use `/membership/application/documents`; administrators and super users use `/admin/documents`. PDF, JPEG, and PNG files up to 5 MB are content-inspected and stored under `plain-php/storage/private/documents/` with randomized names and authorized attachment downloads. Antivirus scanning and retention expiry are not configured and require production policy decisions.
+
 ## Frontend build commands
 
 ```bash
