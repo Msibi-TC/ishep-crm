@@ -176,6 +176,30 @@ INSERT IGNORE INTO `provinces` (`code`,`name`,`active`,`created_at`,`updated_at`
 ('NC','Northern Cape',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),('NW','North West',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
 ('WC','Western Cape',1,UTC_TIMESTAMP(),UTC_TIMESTAMP());
 
+INSERT IGNORE INTO `professions` (`name`,`active`,`created_at`,`updated_at`) VALUES
+('Environmental Health Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Occupational Health and Safety Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Environmental Health Officer',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Health and Safety Officer',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Environmental Officer',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Public Health Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Occupational Hygienist',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Safety Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Environmental Scientist',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Environmental Consultant',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Waste Management Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Water Quality Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Food Safety Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Infection Prevention and Control Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Community Health Worker',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Health Inspector',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Risk Management Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Quality Assurance Practitioner',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Lecturer or Academic',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Researcher',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Student',1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
+('Other',1,UTC_TIMESTAMP(),UTC_TIMESTAMP());
+
 INSERT IGNORE INTO `membership_types` (`code`,`name`,`description`,`fee`,`billing_period`,`is_student`,`active`,`created_at`,`updated_at`) VALUES
 ('company','Company','Fee temporarily set to zero pending business confirmation.',0.00,'annual',0,1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),
 ('individual','Individual','Fee temporarily set to zero pending business confirmation.',0.00,'annual',0,1,UTC_TIMESTAMP(),UTC_TIMESTAMP()),

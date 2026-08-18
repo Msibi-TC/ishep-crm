@@ -1,5 +1,13 @@
 # Plain-PHP Migration Status
 
+## 2026-08-18 — Profession dropdown reference-data fix
+
+- Root cause: the `professions` table existed, and the prepared active-only alphabetical repository query and profile template were correct, but the table had never been seeded. Before the fix it contained 0 total, 0 active, and 0 inactive rows.
+- Added and applied idempotent additive patch `2026_08_18_seed_professions.sql`; the same 22-row reference list is present in `install.sql`. `INSERT IGNORE` relies on the unique profession name and never updates or deletes existing data. Applying the patch twice remained at 22 rows.
+- After the fix: 22 total, 22 active, and 0 inactive professions. `/profile/edit` returned 200 with all profession options visible; a disposable member selected and saved Community Health Worker, `/profile` displayed it, and a subsequent edit selected the saved option.
+- Added an explicit form warning/disabled selection when any required reference list is unavailable. Automated verification passes 156 checks, including ordering, active filtering, option/value/escaping structure, selection preservation, invalid-ID rejection, and patch safety/idempotency.
+- The disposable HTTP member, profile, role, and audit data were removed; no test record remains.
+
 ## 2026-08-18 — Finance and membership activation workflow
 
 - The private-document checkpoint `a8988a2` and dashboard follow-up `9e17e71` were verified pushed; origin `migration/plain-php-mvp` was at `9e17e71` before finance work.

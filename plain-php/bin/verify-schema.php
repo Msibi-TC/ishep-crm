@@ -19,7 +19,7 @@ try {
     $missing = array_values(array_diff($required, $found));
 
     $counts = [];
-    foreach (['roles','permissions','provinces','membership_types'] as $table) {
+    foreach (['roles','permissions','provinces','professions','membership_types'] as $table) {
         $statement = $pdo->prepare("SELECT COUNT(*) FROM `$table`");
         $statement->execute();
         $counts[$table] = (int) $statement->fetchColumn();
@@ -48,7 +48,7 @@ try {
         fwrite(STDERR, 'FAIL missing tables: '.implode(', ', $missing)."\n");
         exit(1);
     }
-    if ($counts['roles'] < 4 || $counts['permissions'] < 22 || $counts['provinces'] < 9 || $counts['membership_types'] < 3 || $registeredRoleCount!==1 || $membershipColumnCount!==1 || $missingProfileColumns || !$profileUserUnique || $missingApplicationColumns || $missingEventColumns || !$applicationNumberUnique || $missingDocumentColumns || !$documentReferenceUnique || !$genericDocumentType || $missingFinanceColumns || in_array(false,$financeUnique,true)) {
+    if ($counts['roles'] < 4 || $counts['permissions'] < 22 || $counts['provinces'] < 9 || $counts['professions'] < 22 || $counts['membership_types'] < 3 || $registeredRoleCount!==1 || $membershipColumnCount!==1 || $missingProfileColumns || !$profileUserUnique || $missingApplicationColumns || $missingEventColumns || !$applicationNumberUnique || $missingDocumentColumns || !$documentReferenceUnique || !$genericDocumentType || $missingFinanceColumns || in_array(false,$financeUnique,true)) {
         fwrite(STDERR, "FAIL reference-data baseline is incomplete\n");
         exit(1);
     }
