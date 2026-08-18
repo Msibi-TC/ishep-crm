@@ -1,0 +1,7 @@
+{
+    "name": "ishep/plain-php-mvp",
+    "description": "Independent plain-PHP ISHEP MVP",
+    "license": "proprietary",
+    "require": { "php": ">=8.0" },
+    "autoload": { "psr-4": { "Ishep\\": "src/" }, "files": ["src/Support/helpers.php"] }
+}

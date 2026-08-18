@@ -1,0 +1,1 @@
+<div class="text-center py-5"><h1>Something went wrong</h1><p class="lead">The request could not be completed safely.</p><?php if(!empty($showDetail)):?><pre class="text-start bg-dark text-white p-3 rounded"><?=e($detail??'')?></pre><?php endif;?><a class="btn btn-primary" href="<?=e(url('/'))?>">Home</a></div>

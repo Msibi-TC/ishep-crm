@@ -1,0 +1,4 @@
+<?php
+namespace Ishep\Repositories;
+use PDO;
+final class PasswordResetRepository { public function __construct(private PDO $db){} public function store(string $email,string $hash):void{$this->db->prepare('DELETE FROM password_reset_tokens WHERE email=?')->execute([$email]);$this->db->prepare('INSERT INTO password_reset_tokens (email,token,created_at) VALUES (?,?,UTC_TIMESTAMP())')->execute([$email,$hash]);} public function valid(string $email,string $token,int $minutes=60):bool{$s=$this->db->prepare('SELECT token,created_at FROM password_reset_tokens WHERE email=?');$s->execute([$email]);$row=$s->fetch();return(bool)$row&&strtotime($row['created_at'])>=time()-$minutes*60&&hash_equals($row['token'],hash('sha256',$token));} public function delete(string $email):void{$this->db->prepare('DELETE FROM password_reset_tokens WHERE email=?')->execute([$email]);} }

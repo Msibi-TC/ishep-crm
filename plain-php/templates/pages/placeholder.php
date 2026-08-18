@@ -1,0 +1,1 @@
+<div class="card shadow-sm"><div class="card-body p-5"><span class="badge text-bg-secondary">Information placeholder</span><h1 class="mt-3"><?=e($title)?></h1><p class="lead"><?=e($message)?></p><p>No application, payment, listing or verification backend is represented as complete.</p><a class="btn btn-primary" href="<?=e(url('/'))?>">Return home</a></div></div>

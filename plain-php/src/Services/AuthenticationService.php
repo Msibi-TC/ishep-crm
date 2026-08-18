@@ -1,0 +1,4 @@
+<?php
+namespace Ishep\Services;
+use Ishep\Repositories\UserRepository;use Ishep\Security\Session;
+final class AuthenticationService { private ?array $cached=null; public function __construct(private UserRepository $users,private Session $session){} public function attempt(string $email,string $password):bool{$u=$this->users->byEmail($email);if(!$u||$u['account_status']!=='active'||!password_verify($password,$u['password']))return false;if(password_needs_rehash($u['password'],PASSWORD_DEFAULT))$this->users->password((int)$u['id'],password_hash($password,PASSWORD_DEFAULT));$this->session->regenerate();$this->session->put('user_id',(int)$u['id']);$this->users->loginAt((int)$u['id']);$this->cached=$u;return true;} public function user():?array{if($this->cached)return$this->cached;$id=(int)$this->session->get('user_id',0);return$this->cached=$id?$this->users->byId($id):null;} public function logout():void{$this->cached=null;$this->session->invalidate();} }

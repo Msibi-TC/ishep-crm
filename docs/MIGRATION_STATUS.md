@@ -11,13 +11,14 @@
 | Audit date | 2026-08-18 |
 | Current technology | PHP 8.3.33 CLI, Laravel 12.66.0, MySQL target, Bootstrap 5, Vite 7.3.6, PHPUnit 11.5.56 |
 | Target technology | PHP 8.3+, Apache, PDO/MySQL or MariaDB, front controller, server templates, Bootstrap/static assets, native sessions/CSRF |
-| Migration stage | Stage 0 audit complete; implementation not started |
+| Migration stage | Urgent parallel MVP implemented across Stages 1–3; parity verification remains incomplete |
 | Latest pre-audit commit | `bf49894` (`docs: finalize task 2 status record`) |
 | Audit commit | `bcd0dfe` (`docs: audit Laravel to plain PHP migration`) |
 | Documentation correction | `a812741` (`docs: fix migration plan whitespace`); no history rewrite was performed |
 | Pushed branch | `migration/plain-php-audit` successfully pushed to `origin` |
 | Push state | Local branch synchronized with `origin/migration/plain-php-audit` before this checkpoint update |
-| Implementation state | Stage 0 documentation only; Stage 1 application implementation has not started |
+| MVP branch | `migration/plain-php-mvp`, created from audit checkpoint `83bb837` |
+| Implementation state | Parallel runtime exists under `plain-php/`; Laravel remains unchanged |
 | Working tree state | Clean immediately before this checkpoint-only status edit |
 | Audit-status commit | The commit containing this update; it does not claim to contain its own final hash |
 
@@ -64,9 +65,21 @@ The PHPUnit configuration selects SQLite `:memory:`, array sessions/cache/mail, 
 - Defined database preservation, plain-PHP architecture, security replacements, route/feature parity gates, nine implementation/deployment stages, HOSTAFRICA checklist, risks, and decisions.
 - Application code, build configuration, dependencies/lockfiles, environment files, database, and uploads were not changed. `vendor/`, `node_modules/`, and generated build artifacts are ignored local prerequisites/artifacts only.
 
+## Plain-PHP MVP checkpoint
+
+The parallel MVP implements the requested public pages/placeholders, registration, login/logout, password-reset request/reset, member and role-protected staff dashboards, active-account enforcement, CSRF, throttling, native sessions, PDO repositories, health endpoint, local Bootstrap assets, centralized errors/logging, and a dependency-free test runner. It targets the existing users/RBAC/reference/audit/reset tables without schema changes and deliberately does not consume Laravel framework payload tables.
+
+Verification on 2026-08-18:
+
+- Composer generated the PSR-4 autoloader without network packages.
+- All plain-PHP source/template/test files passed `php -l`.
+- `php plain-php/tests/run.php` passed 21 checks.
+- Built-in-server smoke checks returned 200 for public/auth forms, 302 for an unauthenticated dashboard, 404 for a missing page, 405 for an invalid method, 419 for missing CSRF, and 503 from health when database credentials were intentionally unavailable.
+- DB-backed registration/login/reset/RBAC were not live-tested because no `plain-php/.env` credentials were created or copied. No database query or write was performed during this implementation.
+
 ## Blockers, risks, and pending decisions
 
-There is no blocker to completing the documentation audit. Stage 1 remains blocked because the active PHP 8.3 CLI lacks ZIP extraction and the alternate XAMPP PHP is 8.0.30. Before Stage 1, align the Apache and CLI runtimes on PHP 8.3 and enable `ctype`, `curl`, `dom`, `fileinfo`, `filter`, `hash`, `json`, `mbstring`, `openssl`, `pcre`, `PDO`, `pdo_mysql`, `session`, `tokenizer`, `xml`, and `zip`. `intl` is recommended for future locale-aware formatting but is not a Stage 1 requirement.
+The no-dependency MVP runs on the PHP 8.3 CLI despite ZIP being unavailable. A live database demonstration requires a local, ignored `plain-php/.env` populated by the operator. XAMPP/Apache still requires alignment from PHP 8.0.30 to PHP 8.3+ with `PDO`, `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `session`, and `json`; enable `zip` for reliable Composer workflows. `intl` remains recommended for future locale-aware formatting.
 
 Primary risks are authentication/security regression, confusion between placeholders/permissions and implemented domains, loss of Eloquent casts/transactions, incomplete business rules, premature framework-table removal, visual drift, and unconfirmed shared-host capabilities.
 
@@ -74,9 +87,9 @@ Confirm: HOSTAFRICA plan/PHP/extensions/document root/cron/SMTP/backups; databas
 
 ## Remaining stages and recommended next task
 
-Remaining stages are: 1 foundation; 2 public presentation; 3 authentication/RBAC; 4 membership/documents/verification; 5 finance; 6 Career/Bursary; 7 communications/reports; 8 parity/Laravel retirement; 9 deployment/operations.
+Stages 1–3 now have an MVP implementation but still require configured-database integration tests, security review, visual acceptance, and Apache/XAMPP verification before their parity gates can close. Entirely remaining stages are: 4 membership/documents/verification; 5 finance; 6 Career/Bursary; 7 communications/reports; 8 parity/Laravel retirement; and 9 deployment/operations.
 
-Recommended next task: Stage 1 only—create a parallel, non-routed plain-PHP foundation with Composer PSR-4 autoloading, configuration loader, PDO connection factory, request/response/router, middleware pipeline, native secure session and CSRF services, escaping/validation helpers, error/logging boundary, test harness, and a health check. Do not migrate domain routes or alter existing tables in that task.
+Recommended next task: configure an ignored local MVP environment, run read/write parity checks against a disposable or backed-up personal development database, add database integration tests, and review authentication/reset/RBAC before deployment. Do not add missing CRM domains or alter the schema in that task.
 
 ## Append-only changelog
 
@@ -95,3 +108,11 @@ Recommended next task: Stage 1 only—create a parallel, non-routed plain-PHP fo
 - Confirmed only the two approved migration documents differ from `origin/main`.
 - Confirmed the Stage 0 documentation is committed and the plain-PHP application implementation has not started.
 - Kept Stage 1 blocked pending aligned PHP 8.3 Apache/CLI runtimes and required extensions.
+
+### 2026-08-18 — Urgent plain-PHP MVP
+
+- Created `migration/plain-php-mvp` from the completed audit branch.
+- Added the independent `plain-php/public/index.php` runtime and supporting architecture without deleting or modifying Laravel.
+- Implemented the represented public, authentication, dashboard, account-status, and RBAC behavior; future CRM pages remain truthful placeholders.
+- Added local Bootstrap assets, Apache/built-in-server instructions, security controls, PDO repositories, reset tokens, health reporting, and automated checks.
+- Performed no migrations, schema changes, seed operations, database queries, or database writes; live DB parity remains pending local ignored credentials.

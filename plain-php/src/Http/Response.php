@@ -1,0 +1,3 @@
+<?php
+namespace Ishep\Http;
+final class Response { public function __construct(public string $body='',public int $status=200,public array $headers=['Content-Type'=>'text/html; charset=UTF-8']){} public static function redirect(string $to,int $status=302):self{return new self('',$status,['Location'=>$to]);} public static function json(array $data,int $status=200):self{return new self((string)json_encode($data,JSON_UNESCAPED_SLASHES),$status,['Content-Type'=>'application/json; charset=UTF-8']);} public function send():void{http_response_code($this->status);foreach($this->headers as $k=>$v)header($k.': '.$v);echo $this->body;} }

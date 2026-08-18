@@ -1,0 +1,4 @@
+<?php
+namespace Ishep\Repositories;
+use PDO;
+final class RoleRepository { public function __construct(private PDO $db){} public function assignRegistered(int $userId):void{$s=$this->db->prepare("INSERT INTO user_roles (user_id,role_id,assigned_by,assigned_at) SELECT ?,id,NULL,UTC_TIMESTAMP() FROM roles WHERE code='registered_user'");$s->execute([$userId]);if($s->rowCount()!==1)throw new \RuntimeException('The registered_user role is not configured.');} public function roles(int $userId):array{$s=$this->db->prepare('SELECT r.code FROM roles r JOIN user_roles ur ON ur.role_id=r.id WHERE ur.user_id=?');$s->execute([$userId]);return array_column($s->fetchAll(),'code');} public function permissions(int $userId):array{$s=$this->db->prepare('SELECT DISTINCT p.code FROM permissions p JOIN role_permissions rp ON rp.permission_id=p.id JOIN user_roles ur ON ur.role_id=rp.role_id WHERE ur.user_id=?');$s->execute([$userId]);return array_column($s->fetchAll(),'code');} }

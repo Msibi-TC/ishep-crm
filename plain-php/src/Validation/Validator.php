@@ -1,0 +1,3 @@
+<?php
+namespace Ishep\Validation;
+final class Validator { public function validate(array $data,array $rules):array{$errors=[];foreach($rules as $field=>$list)foreach($list as $rule){$value=$data[$field]??null;[$name,$arg]=array_pad(explode(':',$rule,2),2,null);$bad=match($name){'required'=>$value===null||trim((string)$value)==='','email'=>$value&&!filter_var($value,FILTER_VALIDATE_EMAIL),'min'=>mb_strlen((string)$value)<(int)$arg,'max'=>mb_strlen((string)$value)>(int)$arg,'confirmed'=>$value!==($data[$field.'_confirmation']??null),'accepted'=>!in_array($value,['1',1,true,'on','yes'],true),default=>false};if($bad){$errors[$field][]=ucfirst(str_replace('_',' ',$field)).' is invalid.';break;}}return$errors;} }

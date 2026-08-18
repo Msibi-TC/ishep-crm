@@ -1,0 +1,8 @@
+/.env
+/vendor/
+/storage/logs/*
+!/storage/logs/.gitignore
+/storage/sessions/*
+!/storage/sessions/.gitignore
+/storage/private/*
+!/storage/private/.gitignore

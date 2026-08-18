@@ -1,0 +1,2 @@
+<?php
+namespace Ishep\Http\Middleware;use Ishep\Bootstrap\Application;use Ishep\Http\{Request,Response};final class RoleMiddleware{public function __construct(private string $role){}public function __invoke(Request $r,callable $next):Response{$u=Application::instance()->auth()->user();return$u&&Application::instance()->authorization()->hasRole((int)$u['id'],$this->role)?$next($r):Application::instance()->render('errors/403',[],403);}}

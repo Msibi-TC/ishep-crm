@@ -1,0 +1,2 @@
+<?php
+namespace Ishep\Http\Controllers;use Ishep\Bootstrap\Application as App;use Ishep\Http\{Request,Response};final class PublicController{public function page(string $view,array $data=[]):Response{return App::instance()->render($view,$data);}public function health(Request $r):Response{$ok=true;try{App::instance()->db()->query('SELECT 1');}catch(\Throwable){$ok=false;}return Response::json(['status'=>$ok?'ok':'degraded','php'=>PHP_VERSION,'database'=>$ok?'reachable':'not reachable','environment'=>App::instance()->config('app.env')],$ok?200:503);}}

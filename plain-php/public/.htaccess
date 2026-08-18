@@ -1,0 +1,13 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule "(^|/)\." - [F,L]
+RewriteRule "\.(env|ini|log|sql|sqlite|bak|key|pem|phar)$" - [F,L,NC]
+RewriteRule "^(src|config|storage|templates|tests|bin|vendor)(/|$)" - [F,L,NC]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.php [QSA,L]
+
+# Enable HTTPS only after confirming proxy/server behavior in production:
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]

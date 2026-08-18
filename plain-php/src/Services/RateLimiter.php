@@ -1,0 +1,3 @@
+<?php
+namespace Ishep\Services;
+final class RateLimiter { public function __construct(private string $path){} private function file(string $key):string{return$this->path.'/'.hash('sha256',$key).'.json';} public function blocked(string $key):bool{$x=$this->read($key);return count(array_filter($x,fn($t)=>$t>time()-60))>=5;} public function hit(string $key):void{$x=array_values(array_filter($this->read($key),fn($t)=>$t>time()-60));$x[]=time();file_put_contents($this->file($key),json_encode($x),LOCK_EX);} public function clear(string $key):void{@unlink($this->file($key));} private function read(string $key):array{$f=$this->file($key);return is_file($f)?(json_decode((string)file_get_contents($f),true)?:[]):[];} }
