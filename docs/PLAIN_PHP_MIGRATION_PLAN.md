@@ -1,7 +1,9 @@
 # Laravel to Plain-PHP Migration Plan
 
-**Audit date:** 2026-08-18  
-**Repository:** `Msibi-TC/ishep-crm`  
+**Audit date:** 2026-08-18
+
+**Repository:** `Msibi-TC/ishep-crm`
+
 **Scope:** Evidence-based migration design only; no runtime or schema changes
 
 ## Executive summary
