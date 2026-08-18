@@ -87,6 +87,8 @@ php artisan users:assign-role user@example.com administrator
 
 The user and role must already exist. Company, Individual, and Student are membership types, not roles. Applicant status will arise from a future application submission and is not a permanent role.
 
+The active plain-PHP runtime provides `GET /dashboard`, `GET /profile`, `GET /profile/edit`, and CSRF-protected `POST /profile`. Profile updates always target the authenticated session user. Account email is read-only here, and roles and account status cannot be changed through this workflow. Existing installations apply `plain-php/database/patches/2026_08_18_create_member_profiles.sql` once; new installations receive the same schema from `plain-php/database/install.sql`.
+
 ## Frontend build commands
 
 ```bash
@@ -109,6 +111,15 @@ php artisan test --filter=HomePageTest
 ```
 
 Tests use SQLite in memory and do not modify the configured MySQL development database.
+
+Active plain-PHP verification:
+
+```bash
+php plain-php/bin/test-db.php
+php plain-php/bin/verify-schema.php
+php plain-php/tests/run.php
+php -S localhost:8080 -t plain-php/public plain-php/bin/serve.php
+```
 
 ## Git workflow
 

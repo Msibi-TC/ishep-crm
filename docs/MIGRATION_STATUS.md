@@ -152,3 +152,15 @@ Recommended next task: configure an ignored local MVP environment, run read/writ
 - HTTP smoke results: `/`, `/register`, `/login`, `/forgot-password`, and `/health` returned 200; unauthenticated `/dashboard` returned 302; invalid CSRF returned 419. Registration and login both regenerated the session identifier.
 - Added `docs/PROJECT_STRUCTURE.md`, active-runtime details near the top of `README.md`, read-only database verification commands, password UX assets/policy, membership repository/schema patch, authentication middleware, and expanded disposable integration tests.
 - Remaining risk: perform a final manual screen-reader/mobile browser pass for announcement cadence, focus order, and visual presentation. Recommended next feature: implement the real member profile and member dashboard using the completed authentication foundation.
+
+### 2026-08-18 — Member profile and functional dashboard
+
+- Authentication checkpoint `0d7f1cd` was already pushed and synchronized on `origin/migration/plain-php-mvp`.
+- Added authenticated profile display/edit/update routes. Ownership comes only from the session; POST updates require CSRF.
+- Applied the reviewed additive `2026_08_18_create_member_profiles.sql` patch after confirming the table was absent. It stores telephone, province, profession, organisation, job title, optional biography, and timestamps separately from account credentials.
+- Full name, read-only email, membership type, status, and joined timestamps remain sourced from `users`; members cannot change roles, permissions, email, or account status here.
+- Added prepared repositories, a transactional update/audit service, allow-list validator, active-reference validation, safe errors, escaping, and centralized completion based on name, email, membership type, telephone, province, and profession. Optional fields do not reduce completion.
+- Replaced the dashboard placeholder with truthful profile, completion, membership-application, document, and recent-login summaries.
+- Disposable integration and HTTP users/professions plus related audit/profile/role data were removed. Verification passed: PDO connection, 11/11 schema tables, 60 automated checks, all non-vendor PHP syntax, HTTP status matrix, `git diff --check`, and private-file checks.
+- Release target: commit `feat: add member profile and dashboard` pushed only to `origin/migration/plain-php-mvp`; the resulting hash and push confirmation are reported at handoff.
+- Recommended next task: implement the membership-application workflow using the completed profile foundation.

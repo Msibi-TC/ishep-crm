@@ -1,0 +1,10 @@
+<?php
+namespace Ishep\Http\Controllers;
+use Throwable;use Ishep\Bootstrap\Application as App;use Ishep\Http\{Request,Response};use Ishep\Validation\MemberProfileValidator;
+final class ProfileController
+{
+    private function app():App{return App::instance();} private function userId():int{return(int)$this->app()->session()->get('user_id');}
+    private function data():array{$profile=$this->app()->profiles()->byUserId($this->userId())??[];return['profile'=>$profile,'completion'=>$this->app()->profileCompletion()->calculate($profile),'membershipTypes'=>$this->app()->memberships()->active(),'provinces'=>$this->app()->references()->provinces(),'professions'=>$this->app()->references()->professions()];}
+    public function dashboard():Response{return$this->app()->render('dashboards/member',$this->data());} public function show():Response{return$this->app()->render('profile/show',$this->data());} public function edit():Response{return$this->app()->render('profile/edit',$this->data());}
+    public function update(Request $request):Response{[$data,$errors]=(new MemberProfileValidator($this->app()->memberships(),$this->app()->references()))->validate($request->input);if($errors){$this->app()->session()->flash('errors',$errors);$this->app()->session()->flash('old',$data);return Response::redirect(url('/profile/edit'));}try{$this->app()->profileService()->update($this->userId(),$data,$request->ip());$this->app()->session()->flash('status','Your profile has been updated.');return Response::redirect(url('/profile'));}catch(Throwable $exception){$this->app()->logger()->log('error','Member profile update failed',['exception'=>get_class($exception),'user_id'=>$this->userId()]);$this->app()->session()->flash('errors',['profile'=>['Your profile could not be updated safely. Please try again.']]);$this->app()->session()->flash('old',$data);return Response::redirect(url('/profile/edit'));}}
+}

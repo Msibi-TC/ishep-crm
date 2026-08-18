@@ -20,7 +20,7 @@ The Laravel application files at the repository root are temporary legacy refere
 | `plain-php/src/Database/` | PDO connection factory |
 | `plain-php/src/Http/` | Request/response objects, controllers, and middleware |
 | `plain-php/src/Repositories/` | Prepared PDO queries and persistence boundaries |
-| `plain-php/src/Services/` | Authentication, registration, password-reset, authorization, and rate-limit workflows |
+| `plain-php/src/Services/` | Authentication, registration, member-profile, password-reset, authorization, and rate-limit workflows |
 | `plain-php/src/Security/` | Sessions, CSRF, and authoritative password policy |
 | `plain-php/src/Validation/` | Server-side form validation |
 | `plain-php/templates/` | Escaped server-rendered layouts and page templates |
@@ -36,4 +36,4 @@ The Laravel application files at the repository root are temporary legacy refere
 
 `plain-php/.env` contains local secrets and must remain ignored and untracked. Configure it from `plain-php/.env.example`; never paste its values into documentation or logs. Logs, session files, private uploads, Composer-generated `plain-php/vendor/`, database exports, and disposable test data must not be committed.
 
-The database installer is manual-only. Existing installations that predate membership selection use `plain-php/database/patches/2026_08_18_add_user_membership_type.sql` once after confirming the column is absent. Never drop, recreate, truncate, or reset `ishep_crm` as part of application startup or testing.
+The database installer is manual-only. Existing installations use the applicable additive patch once after confirming its target is absent: `2026_08_18_add_user_membership_type.sql` for membership selection and `2026_08_18_create_member_profiles.sql` for extended profiles. Never drop, recreate, truncate, or reset `ishep_crm` as part of application startup or testing.

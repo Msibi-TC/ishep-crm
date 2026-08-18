@@ -7,7 +7,7 @@ use Ishep\Database\ConnectionFactory;
 $base = dirname(__DIR__);
 require $base.'/vendor/autoload.php';
 Environment::load($base.'/.env');
-$required = ['users','password_reset_tokens','roles','permissions','role_permissions','user_roles','provinces','professions','membership_types','audit_logs'];
+$required = ['users','password_reset_tokens','roles','permissions','role_permissions','user_roles','provinces','professions','membership_types','audit_logs','member_profiles'];
 
 try {
     $config = require $base.'/config/database.php';
@@ -26,16 +26,21 @@ try {
     }
     $role=$pdo->prepare("SELECT COUNT(*) FROM roles WHERE code = ?");$role->execute(['registered_user']);$registeredRoleCount=(int)$role->fetchColumn();
     $column=$pdo->prepare("SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = ? AND table_name = 'users' AND column_name = 'membership_type_id'");$column->execute([$config['database']]);$membershipColumnCount=(int)$column->fetchColumn();
+    $profileColumns=['id','user_id','telephone','province_id','profession_id','organisation','job_title','biography','created_at','updated_at'];
+    $columns=$pdo->prepare("SELECT column_name FROM information_schema.columns WHERE table_schema=? AND table_name='member_profiles'");$columns->execute([$config['database']]);$missingProfileColumns=array_values(array_diff($profileColumns,$columns->fetchAll(PDO::FETCH_COLUMN)));
+    $unique=$pdo->prepare("SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema=? AND table_name='member_profiles' AND column_name='user_id' AND non_unique=0");$unique->execute([$config['database']]);$profileUserUnique=(int)$unique->fetchColumn()>=1;
 
     echo 'Tables: '.count($found).'/'.count($required)." present\n";
     foreach ($counts as $table => $count) echo "$table: $count\n";
     echo "registered_user roles: $registeredRoleCount\n";
     echo 'users.membership_type_id: '.($membershipColumnCount===1?'present':'missing')."\n";
+    echo 'member_profiles critical columns: '.($missingProfileColumns?'missing '.implode(', ',$missingProfileColumns):'present')."\n";
+    echo 'member_profiles.user_id unique: '.($profileUserUnique?'yes':'no')."\n";
     if ($missing) {
         fwrite(STDERR, 'FAIL missing tables: '.implode(', ', $missing)."\n");
         exit(1);
     }
-    if ($counts['roles'] < 4 || $counts['permissions'] < 22 || $counts['provinces'] < 9 || $counts['membership_types'] < 3 || $registeredRoleCount!==1 || $membershipColumnCount!==1) {
+    if ($counts['roles'] < 4 || $counts['permissions'] < 22 || $counts['provinces'] < 9 || $counts['membership_types'] < 3 || $registeredRoleCount!==1 || $membershipColumnCount!==1 || $missingProfileColumns || !$profileUserUnique) {
         fwrite(STDERR, "FAIL reference-data baseline is incomplete\n");
         exit(1);
     }
