@@ -4,10 +4,14 @@ This is a parallel PHP 8.0-compatible demonstration of the functionality current
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and set a random `APP_KEY` plus the existing personal database connection. Never commit `.env`.
-2. Ensure PHP has PDO MySQL, mbstring, openssl, fileinfo, session, and JSON support.
-3. Generate the dependency-free Composer autoloader: `composer dump-autoload --working-dir=plain-php`.
-4. Run tests: `php plain-php/tests/run.php`.
+1. Confirm the operator-created database is named `ishep_crm`.
+2. Review the [phpMyAdmin setup guide](docs/PHPMYADMIN_SETUP.md). Import `database/install.sql` manually only when ready; setup never runs it automatically.
+3. Copy `.env.example` to `.env`, keep `DB_DATABASE=ishep_crm`, and set a random `APP_KEY` plus the local database credentials. Never commit `.env`.
+4. Ensure PHP has PDO MySQL, mbstring, openssl, fileinfo, session, and JSON support.
+5. Generate the dependency-free Composer autoloader: `composer dump-autoload --working-dir=plain-php`.
+6. Run tests: `php plain-php/tests/run.php`.
+
+The installation SQL uses the existing `ishep_crm` database and contains no database creation, drop, truncate, or automatic import operation.
 
 ### PHP built-in server
 

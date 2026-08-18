@@ -47,6 +47,8 @@ ISHEP CRM and Portal Suite is a Laravel-based multi-portal platform for membersh
 5. Ensure the database, character set, and collation are configured to use `utf8mb4` and `utf8mb4_unicode_ci`.
 6. Use UTC for application and database timestamps.
 
+For the parallel plain-PHP MVP, the database name is also `ishep_crm`. Its reviewed, manual-only installation path is documented in [`plain-php/docs/PHPMYADMIN_SETUP.md`](plain-php/docs/PHPMYADMIN_SETUP.md). The SQL script does not create, drop, recreate, or truncate the database, and it is never imported automatically.
+
 ## Environment configuration
 
 Use the values in `.env.example` as a template. Do not commit real credentials or application keys. Keep placeholders only in tracked files.

@@ -41,6 +41,8 @@ No application upload, private-document, generated certificate, PDF, export, thi
 
 The seven migrations define 16 tables: users, password reset tokens, sessions, two cache tables, three queue tables, four RBAC tables, three reference tables, and audit logs. All are PDO-compatible. Preserve user/RBAC/reference/audit data and schema. Leave Laravel session/cache/queue tables in place during coexistence; their serialized payloads are not portable and should not be consumed by the new runtime. Explicitly replace Eloquent enum, boolean, decimal, JSON, datetime, hashing, and timestamp behavior.
 
+The current local target is the operator-created, empty `ishep_crm` database. `plain-php/database/install.sql` targets that exact database and is manual-only. It does not create, drop, recreate, truncate, or automatically import a database. The script and application contain no legacy database-name reference.
+
 The live schema was not queried during this audit because the absent vendor dependencies could not be restored in the current environment. The last integrated status records MySQL 8.0.46 and all seven migrations applied. No migrations, seeders, schema writes, data reads, or data exports were performed.
 
 ## Baseline verification
@@ -116,3 +118,10 @@ Recommended next task: configure an ignored local MVP environment, run read/writ
 - Implemented the represented public, authentication, dashboard, account-status, and RBAC behavior; future CRM pages remain truthful placeholders.
 - Added local Bootstrap assets, Apache/built-in-server instructions, security controls, PDO repositories, reset tokens, health reporting, and automated checks.
 - Performed no migrations, schema changes, seed operations, database queries, or database writes; live DB parity remains pending local ignored credentials.
+
+### 2026-08-18 — Database-name correction and manual installer
+
+- Standardized the plain-PHP example configuration, installer, setup guide, and README instructions on `DB_DATABASE=ishep_crm`.
+- Added a non-destructive manual SQL installer for the existing empty `ishep_crm` database and a phpMyAdmin walkthrough.
+- Confirmed the installer does not create, drop, recreate, truncate, or automatically import the database and contains no legacy database-name reference.
+- Did not connect to, select through a client, import into, or otherwise modify the local database.
