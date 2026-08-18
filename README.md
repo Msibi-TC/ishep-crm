@@ -1,5 +1,13 @@
 # ISHEP CRM and Portal Suite
 
+## Finance and membership activation
+
+The plain-PHP MVP provides effective-dated fee schedules, one membership and invoice per approved application, manual payment allocation, append-only reversals, refund requests, and manual refund recording. Zero values on `membership_types` remain non-authoritative placeholders: without a positive active schedule, approval creates `awaiting_fee_configuration` and no invoice. Membership activates only after its invoice reaches zero balance.
+
+Members use `/membership`, `/finance/invoices`, `/finance/payments`, and `/finance/refunds`. Finance and super-user staff use `/finance/dashboard`, `/finance/fees`, `/finance/staff/invoices`, `/finance/payments/create`, and `/finance/refund-requests`. Mutations are CSRF-protected, transactional, audited, and use random public references. Payments/refunds are manual records, not gateway confirmations.
+
+Apply `plain-php/database/patches/2026_08_18_create_finance_workflow.sql` once to an existing database. Preview historical approvals with `php plain-php/bin/reconcile-approved-memberships.php --dry-run`; use `--apply` only after reviewing the target and preview. Online gateways, PDFs, confirmed fees, tax/proration, renewals, expiry periods, and automated refunds remain deferred.
+
 > **Current active application:** `plain-php/`
 >
 > **Web root:** `plain-php/public/`

@@ -1,5 +1,14 @@
 # Plain-PHP Migration Status
 
+## 2026-08-18 — Finance and membership activation workflow
+
+- The private-document checkpoint `a8988a2` and dashboard follow-up `9e17e71` were verified pushed; origin `migration/plain-php-mvp` was at `9e17e71` before finance work.
+- Applied additive `2026_08_18_create_finance_workflow.sql`, mirrored in `install.sql`: fee schedules, memberships, invoices/items, payments/allocations, refund requests/refunds, and finance events (26 application tables).
+- Fee schedules are independent of placeholder fees, effective-dated and overlap-protected. Approval idempotently creates one membership; a positive effective fee creates one invoice, otherwise status is `awaiting_fee_configuration` with no zero invoice.
+- Exact minor-unit calculations, transactional allocation, duplicate/overpayment rejection, append-only reversals, auditable refund transitions, random public references, member ownership, and finance/super-user authorization are enforced. Full settlement activates membership; reversal recalculates its status.
+- Printable HTML invoices and receipts disclose manual recording. Historical reconciliation is dry-run by default.
+- Deferred: gateway integrations, PDFs/certificates, CSV export, confirmed fees, taxes/proration, renewal/expiry rules, automated refunds, and public verification.
+
 ## Audit snapshot
 
 | Field | Status |

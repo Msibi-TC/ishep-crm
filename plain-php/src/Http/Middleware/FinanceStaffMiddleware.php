@@ -1,0 +1,2 @@
+<?php
+namespace Ishep\Http\Middleware;use Ishep\Bootstrap\Application;use Ishep\Http\{Request,Response};final class FinanceStaffMiddleware{public function __invoke(Request $r,callable $next):Response{$u=Application::instance()->auth()->user();$roles=$u?Application::instance()->roles()->roles((int)$u['id']):[];return array_intersect($roles,['finance','super_user'])?$next($r):Application::instance()->render('errors/403',[],403);}}

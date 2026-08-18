@@ -1,5 +1,14 @@
 # ISHEP CRM Project Structure
 
+## Plain-PHP finance domain
+
+- `plain-php/database/patches/2026_08_18_create_finance_workflow.sql`: additive nine-table schema mirrored in `install.sql`.
+- `plain-php/src/Repositories/FinanceRepository.php`: prepared queries and invoice recalculation.
+- `plain-php/src/Services/FinanceService.php`: transactional fees, provisioning, payments, reversals, refunds, audit, and activation.
+- `plain-php/src/Support/Money.php` and `PublicReference.php`: exact minor-unit money and random public IDs.
+- `plain-php/src/Http/Controllers/FinanceController.php`, middleware, and `templates/pages/finance/`: ownership/role enforcement and responsive printable views.
+- `plain-php/bin/reconcile-approved-memberships.php`: dry-run-first historical reconciliation.
+
 ## Active runtime
 
 - Active application: `plain-php/`
