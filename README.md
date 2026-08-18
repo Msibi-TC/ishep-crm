@@ -153,6 +153,8 @@ Role accounts are managed only through `php plain-php/bin/user-admin.php`; passw
 
 Administrators, finance staff, and super users with `reports.view` can open `/admin/reports`. Reports are read-only and cover member totals/statuses, membership type/province/profession distribution, completed cash by year/type/province/profession, and a selectable five-year membership trend. The page also provides a private CSV export; report totals use membership records and completed payment allocations only.
 
+Public membership verification is available at `/verify-membership?number=...`. It accepts only the generated membership-number format, throttles repeated attempts, and discloses only active status, membership type, and validity dates. Active members can view and print their certificate at `/membership/certificate`; non-active members receive no certificate response.
+
 ## Git workflow
 
 ```bash

@@ -20,6 +20,12 @@
 - Report queries use prepared PDO statements for user-controlled years and read-only aggregation over existing membership, profile, invoice, allocation, and completed-payment records. No schema change or persistent test fixture was added.
 - Live database integration and browser smoke checks passed; the plain-PHP suite now passes 208 checks.
 
+## 2026-08-18 - Membership verification and certificate
+
+- Replaced the public verification placeholder with `/verify-membership?number=...`. It uses the existing membership number, accepts only active records, throttles repeated attempts, and returns only membership number, type, status, and validity dates.
+- Added the authenticated `/membership/certificate` printable HTML certificate for active members. Non-active or missing memberships cannot access it; no PDF dependency or new schema was introduced.
+- Focused regression coverage now passes 213 checks, and the browser negative verification state returned HTTP 200 without exposing member identity.
+
 ## 2026-08-18 - Official ISHEP branding
 
 - Integrated the supplied official logo at `plain-php/public/assets/images/ishep-logo.jpeg` into the shared linked header and printable invoice/receipt views, retaining its 738x497 intrinsic dimensions and aspect ratio with meaningful alternative text.
