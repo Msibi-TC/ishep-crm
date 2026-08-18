@@ -103,6 +103,8 @@ php plain-php/bin/create-staff-user.php --name="Test Super User" --email="superu
 
 The provisioner generates a cryptographically secure temporary password, displays it once in the terminal, and never writes it to logs, files, Git, or documentation. Copy it immediately and change or remove staging accounts after review. Use `--dry-run` to validate without writes. List safe account metadata with `php plain-php/bin/list-user-roles.php`; remove a clearly marked test account with `php plain-php/bin/remove-test-user.php --email=...` (dry-run) and then `--apply`. The cleanup command refuses unmarked accounts and protects the final active super-user. Company, Individual, and Student are membership types, not roles.
 
+If a temporary password was lost, pipe a new policy-compliant password to `php plain-php/bin/reset-staff-password.php --email=...`. This works only for clearly marked disposable staff accounts, never logs the password, and does not expose a password in application output.
+
 The requested `administrator.test@example.test` address already belonged to an active member account and was not changed. The safe disposable administrator used for local dashboard testing is `administrator.dashboard.test@example.test`; the finance and super-user addresses are the exact requested addresses.
 
 Dashboard login routing is deterministic: `super_user`, then `administrator`, then `finance`, then `registered_user`. Staff users go to `/dashboard/super-user`, `/dashboard/administrator`, or `/dashboard/finance`; member users go to `/dashboard`. Staff accounts are blocked from member profile, onboarding, document-submission, member-finance, and portal-application routes.

@@ -17,6 +17,12 @@ The first command is expected to refuse the existing `administrator.test@example
 
 Use `--dry-run` before provisioning to validate name, email, and role without writes. The optional forced-password-reset flag is intentionally not provided because this application has no safe forced-change workflow.
 
+If a displayed password is lost, reset only a disposable staff account by piping a new password through standard input:
+
+```powershell
+Read-Host 'New temporary password' -AsSecureString | ForEach-Object { [Net.NetworkCredential]::new('', $_).Password } | php plain-php/bin/reset-staff-password.php --email=finance.test@example.test
+```
+
 ```powershell
 $temporary = Read-Host 'Temporary password' -AsSecureString
 $plain = [Net.NetworkCredential]::new('', $temporary).Password
