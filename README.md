@@ -151,6 +151,8 @@ The active UI uses the official logo at `plain-php/public/assets/images/ishep-lo
 
 Role accounts are managed only through `php plain-php/bin/user-admin.php`; passwords can be piped through standard input and are never logged. Build the isolated DirectAdmin staging artifact with `powershell -ExecutionPolicy Bypass -File plain-php/bin/build-release.ps1`. See [DirectAdmin staging deployment](docs/DIRECTADMIN_STAGING_DEPLOYMENT.md), [role testing](docs/ROLE_TESTING_GUIDE.md), and the [staging checklist](docs/STAGING_RELEASE_CHECKLIST.md).
 
+Administrators, finance staff, and super users with `reports.view` can open `/admin/reports`. Reports are read-only and cover member totals/statuses, membership type/province/profession distribution, completed cash by year/type/province/profession, and a selectable five-year membership trend. The page also provides a private CSV export; report totals use membership records and completed payment allocations only.
+
 ## Git workflow
 
 ```bash

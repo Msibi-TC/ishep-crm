@@ -14,6 +14,12 @@
 - Public `/register` remains member-only and cannot create staff roles. Staff accounts are blocked from member profile, membership application, document submission, member finance, and portal application routes; login priority is `super_user`, `administrator`, `finance`, `registered_user`.
 - Local disposable dashboard accounts are intentionally retained for manual testing: `administrator.dashboard.test@example.test`, `finance.test@example.test`, and `superuser.test@example.test`. The requested `administrator.test@example.test` address already belongs to an active member account and was not changed. Temporary passwords were displayed only once in the local terminal and are not recorded here.
 
+## 2026-08-18 - Read-only operational reports
+
+- Added permission-protected `/admin/reports` with HTML summaries and private CSV export. The reports cover member totals, active/suspended/expired membership status, membership type/province/profession distribution, completed cash by year/type/province/profession, and a five-year membership trend.
+- Report queries use prepared PDO statements for user-controlled years and read-only aggregation over existing membership, profile, invoice, allocation, and completed-payment records. No schema change or persistent test fixture was added.
+- Live database integration and browser smoke checks passed; the plain-PHP suite now passes 208 checks.
+
 ## 2026-08-18 - Official ISHEP branding
 
 - Integrated the supplied official logo at `plain-php/public/assets/images/ishep-logo.jpeg` into the shared linked header and printable invoice/receipt views, retaining its 738x497 intrinsic dimensions and aspect ratio with meaningful alternative text.
