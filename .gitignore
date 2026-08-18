@@ -27,6 +27,7 @@
 /storage/logs/
 /storage/pail
 /vendor
+/build/releases/
 Homestead.json
 Homestead.yaml
 Thumbs.db

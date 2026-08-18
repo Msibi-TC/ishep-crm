@@ -60,3 +60,9 @@ The database installer is manual-only. Existing installations apply the membersh
 - `plain-php/public/assets/images/ishep-logo.jpeg` is the single official logo source used by the shared header and printable invoice/receipt views.
 - `plain-php/public/assets/css/app.css` owns the ISHEP palette and semantic component tokens. Red identifies primary actions and brand accents, charcoal provides structural contrast, gold is reserved for accents/focus, and semantic success/warning/danger/info colours retain their meanings.
 - The shared layout provides a skip link, visible keyboard focus, responsive navigation/footer, intrinsic logo dimensions, reduced-motion handling, narrow-table containment, and grayscale-readable print rules.
+
+## Staging operations
+
+- `plain-php/bin/user-admin.php` and `UserAdministrationService` provide CLI-only audited account, role, and status operations; there is no public role-assignment interface.
+- `plain-php/bin/build-release.ps1` creates an ignored, checksummed plain-PHP-only DirectAdmin archive and validates its runtime structure and private-file exclusions.
+- `docs/DIRECTADMIN_STAGING_DEPLOYMENT.md`, `ROLE_TESTING_GUIDE.md`, and `STAGING_RELEASE_CHECKLIST.md` define deployment, rollback, access-control, acceptance, and cleanup procedures.

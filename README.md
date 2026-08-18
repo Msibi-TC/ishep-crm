@@ -93,13 +93,19 @@ Do not use destructive migration commands against a database containing developm
 
 ## Authentication and access control
 
-The application provides public registration, session login/logout, password reset, an authenticated dashboard, account-status enforcement, and role-protected staff dashboard placeholders. Public registration always assigns only the `registered_user` role. Staff roles (`administrator`, `finance`, and `super_user`) must be assigned through an authorised administrative process or the secure console command:
+The application provides public registration, session login/logout, password reset, an authenticated dashboard, account-status enforcement, and role-protected staff dashboards. `/register` is member-only: it requires a valid active membership type and always assigns only `registered_user`. It ignores submitted staff-role fields and cannot create administrator, finance, or super-user accounts. Staff accounts have no membership type and are created only by the CLI provisioner:
 
 ```bash
-php artisan users:assign-role user@example.com administrator
+php plain-php/bin/create-staff-user.php --name="Test Administrator" --email="administrator.test@example.test" --role=administrator
+php plain-php/bin/create-staff-user.php --name="Test Finance" --email="finance.test@example.test" --role=finance
+php plain-php/bin/create-staff-user.php --name="Test Super User" --email="superuser.test@example.test" --role=super_user
 ```
 
-The user and role must already exist. Company, Individual, and Student are membership types, not roles. Applicant status will arise from a future application submission and is not a permanent role.
+The provisioner generates a cryptographically secure temporary password, displays it once in the terminal, and never writes it to logs, files, Git, or documentation. Copy it immediately and change or remove staging accounts after review. Use `--dry-run` to validate without writes. List safe account metadata with `php plain-php/bin/list-user-roles.php`; remove a clearly marked test account with `php plain-php/bin/remove-test-user.php --email=...` (dry-run) and then `--apply`. The cleanup command refuses unmarked accounts and protects the final active super-user. Company, Individual, and Student are membership types, not roles.
+
+The requested `administrator.test@example.test` address already belonged to an active member account and was not changed. The safe disposable administrator used for local dashboard testing is `administrator.dashboard.test@example.test`; the finance and super-user addresses are the exact requested addresses.
+
+Dashboard login routing is deterministic: `super_user`, then `administrator`, then `finance`, then `registered_user`. Staff users go to `/dashboard/super-user`, `/dashboard/administrator`, or `/dashboard/finance`; member users go to `/dashboard`. Staff accounts are blocked from member profile, onboarding, document-submission, member-finance, and portal-application routes.
 
 The active plain-PHP runtime provides `GET /dashboard`, `GET /profile`, `GET /profile/edit`, and CSRF-protected `POST /profile`. Profile updates always target the authenticated session user. Account email is read-only here, and roles and account status cannot be changed through this workflow. Existing installations apply `plain-php/database/patches/2026_08_18_create_member_profiles.sql` once; new installations receive the same schema from `plain-php/database/install.sql`.
 
@@ -140,6 +146,8 @@ php -S localhost:8080 -t plain-php/public plain-php/bin/serve.php
 ```
 
 The active UI uses the official logo at `plain-php/public/assets/images/ishep-logo.jpeg` and centralized ISHEP red, charcoal, and gold semantic tokens in `plain-php/public/assets/css/app.css`. Shared navigation, forms, cards, tables, status components, Careers/Bursaries, and printable finance views inherit this accessible responsive theme without remote font or image dependencies.
+
+Role accounts are managed only through `php plain-php/bin/user-admin.php`; passwords can be piped through standard input and are never logged. Build the isolated DirectAdmin staging artifact with `powershell -ExecutionPolicy Bypass -File plain-php/bin/build-release.ps1`. See [DirectAdmin staging deployment](docs/DIRECTADMIN_STAGING_DEPLOYMENT.md), [role testing](docs/ROLE_TESTING_GUIDE.md), and the [staging checklist](docs/STAGING_RELEASE_CHECKLIST.md).
 
 ## Git workflow
 

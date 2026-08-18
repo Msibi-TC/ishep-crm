@@ -1,5 +1,19 @@
 # Plain-PHP Migration Status
 
+## 2026-08-18 - Role testing and DirectAdmin staging preparation
+
+- Added audited CLI-only user creation, exact role assignment/list/removal, and account activation/suspension. Operations validate configured roles, use prepared transactional writes, enforce the central password policy, require confirmation for destructive access changes, and protect the final active super-user.
+- Added a repeatable ignored release builder that packages only the plain-PHP runtime, creates empty private writable directories, rejects `.env` and private runtime content, validates required paths, and emits a SHA-256 checksum.
+- Added DirectAdmin deployment/rollback, role acceptance, and staging-release checklist documentation. Staging uses an isolated empty database, PHP 8.3+, a public-only document root, HTTPS, DirectAdmin password protection, noindex controls, secure configurable cookies, private configurable storage/log paths, and no real personal data.
+- Preview-data automation was deferred because safe ownership boundaries for manager-created records are not yet represented in schema; administrators can create clearly prefixed examples through normal audited forms without introducing a broad cleanup command.
+
+## 2026-08-18 - Secure disposable staff accounts
+
+- Added `plain-php/bin/create-staff-user.php`, a CLI-only provisioner for `administrator`, `finance`, and `super_user`. It validates normalized email/name/role, uses the centralized password policy and `password_hash()`, writes a NULL membership type and exactly one requested role transactionally, and records an audit event.
+- Added `plain-php/bin/list-user-roles.php` for non-secret account status, assigned roles, and membership status, plus `plain-php/bin/remove-test-user.php`, which is dry-run by default, requires `--apply`, accepts clearly marked `Test ...@example.test` accounts by default, and protects the final active super-user.
+- Public `/register` remains member-only and cannot create staff roles. Staff accounts are blocked from member profile, membership application, document submission, member finance, and portal application routes; login priority is `super_user`, `administrator`, `finance`, `registered_user`.
+- Local disposable dashboard accounts are intentionally retained for manual testing: `administrator.dashboard.test@example.test`, `finance.test@example.test`, and `superuser.test@example.test`. The requested `administrator.test@example.test` address already belongs to an active member account and was not changed. Temporary passwords were displayed only once in the local terminal and are not recorded here.
+
 ## 2026-08-18 - Official ISHEP branding
 
 - Integrated the supplied official logo at `plain-php/public/assets/images/ishep-logo.jpeg` into the shared linked header and printable invoice/receipt views, retaining its 738x497 intrinsic dimensions and aspect ratio with meaningful alternative text.
